@@ -1,4 +1,4 @@
-# react-fancy-vitrine
+# React Fancy Vitrine
 
 > A fancy vitrine to your products and galleries in react.
 
