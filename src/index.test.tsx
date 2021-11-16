@@ -1,7 +1,9 @@
-import { ExampleComponent } from '.'
+import ReactFancyVitrine from '.'
+
+ReactFancyVitrine
 
 describe('ExampleComponent', () => {
   it('is truthy', () => {
-    expect(ExampleComponent).toBeTruthy()
+    expect(ReactFancyVitrine).toBeTruthy()
   })
 })

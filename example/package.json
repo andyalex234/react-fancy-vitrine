@@ -19,12 +19,12 @@
     "@types/react-dom": "file:../node_modules/@types/react-dom",
     "react": "file:../node_modules/react",
     "react-dom": "file:../node_modules/react-dom",
+    "react-fancy-vitrine": "file:..",
     "react-scripts": "file:../node_modules/react-scripts",
-    "typescript": "file:../node_modules/typescript",
-    "react-fancy-vitrine": "file:.."
+    "typescript": "file:../node_modules/typescript"
   },
   "devDependencies": {
-    "@babel/plugin-syntax-object-rest-spread": "^7.8.3"
+    "@babel/plugin-syntax-object-rest-spread": "file:../node_modules/@babel/plugin-syntax-object-rest-spread"
   },
   "eslintConfig": {
     "extends": "react-app"
