@@ -1,3 +1,6 @@
 import React from 'react';
-declare const Component: React.FC;
-export default Component;
+declare type ImageMainProps = {
+    selectedImage: string | undefined;
+};
+declare const ImageMain: React.FC<ImageMainProps>;
+export default ImageMain;

@@ -1,5 +1,5 @@
 import React from 'react';
-declare type ArrowButtonProps = {
+export declare type ArrowButtonType = {
     buttonDirection: string | undefined;
     handleClick: React.MouseEventHandler<HTMLButtonElement>;
     buttonPosition: string | undefined;
@@ -16,5 +16,5 @@ declare type ArrowButtonProps = {
  * @param buttonBgColor: default: backgroundColor | backgroundColor when hover
  * @returns Component
  */
-declare const ArrowButton: React.FC<ArrowButtonProps>;
+declare const ArrowButton: React.FC<ArrowButtonType>;
 export default ArrowButton;

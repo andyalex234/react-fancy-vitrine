@@ -1,19 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState, useRef } from 'react'
 import ArrowButton from './components/ArrowButton'
+import ImageMain from './components/ImageMain'
+import Carousel, { ImageType } from './components/Carousel'
 
 import {
-  Container,
-  SelectedImage,
-  Images,
-  ImageSelected,
-  Image,
-  Carousel
+  Container
 } from './styles'
-
-export type ImageType = {
-  id: number;
-  url: string;
-}
 
 type ReactFancyVitrineProps = {
   images?: ImageType[];
@@ -38,18 +30,6 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [selectedImage, setSelectedImage] = useState<ImageType>()
   const carouselItemsRef = useRef<HTMLDivElement[] | null[]>([])
-
-  useEffect(() => {
-    if (images && images[0]) {
-      carouselItemsRef.current = carouselItemsRef.current.slice(
-        0,
-        images.length
-      )
-
-      setSelectedImageIndex(0)
-      setSelectedImage(images[0])
-    }
-  }, [images])
 
   const handleSelectedImageChange = (newIdx: number) => {
     if (images && images.length > 0) {
@@ -93,47 +73,19 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
 
   return (
     <div style={{ ...Container, width: containerWidth }} className={className}>
-      <div style={{
-        ...SelectedImage,
-        backgroundImage: `url(${selectedImage?.url})`
-      }}
+      <ImageMain
+        selectedImage={selectedImage?.url}
       />
 
-      <div style={Carousel}>
-        <div style={Images}>
-          {images &&
-            images.map((image, idx) => {
-              let imageStyle: React.CSSProperties = {
-                ...Image,
-                backgroundImage: `url(${image.url})`
-              }
-
-              if (selectedImageIndex === idx) {
-                imageStyle = {
-                  ...imageStyle,
-                  ...ImageSelected,
-                  borderColor: borderColorSelected
-                }
-              }
-
-              if ((images.length - 1) === idx) {
-                imageStyle = {
-                  ...imageStyle,
-                  marginRight: 0
-                }
-              }
-
-              return (
-                <div
-                  onClick={() => handleSelectedImageChange(idx)}
-                  style={imageStyle}
-                  key={image.id}
-                  ref={(el) => (carouselItemsRef.current[idx] = el)}
-                />
-              )
-            })}
-        </div>
-      </div>
+      <Carousel
+        images={images}
+        selectedImageIndex={selectedImageIndex}
+        borderColorSelected={borderColorSelected}
+        handleSelectedImageChange={handleSelectedImageChange}
+        carouselItemsRef={carouselItemsRef}
+        setSelectedImage={setSelectedImage}
+        setSelectedImageIndex={setSelectedImageIndex}
+      />
 
       <ArrowButton
         buttonDirection='left'
@@ -159,3 +111,4 @@ ReactFancyVitrine.defaultProps = {
 }
 
 export default ReactFancyVitrine
+export { ImageType } from './components/Carousel'

@@ -1,8 +1,5 @@
 import React from 'react';
-export declare type ImageType = {
-    id: number;
-    url: string;
-};
+import { ImageType } from './components/Carousel';
 declare type ReactFancyVitrineProps = {
     images?: ImageType[];
     containerWidth?: string | number;
@@ -16,3 +13,4 @@ declare type ReactFancyVitrineProps = {
 };
 declare const ReactFancyVitrine: React.FC<ReactFancyVitrineProps>;
 export default ReactFancyVitrine;
+export { ImageType } from './components/Carousel';

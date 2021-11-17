@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 var arrowLeft = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaWQ9IkxheWVyXzEiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ4IDQ4OyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgNDggNDgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnPjxwb2x5Z29uIHBvaW50cz0iMzAuOCw0NS43IDkuMSwyNCAzMC44LDIuMyAzMi4yLDMuNyAxMS45LDI0IDMyLjIsNDQuMyAgIi8+PC9nPjwvc3ZnPg==';
 
@@ -84,10 +84,7 @@ ArrowButton.defaultProps = {
   buttonDirection: 'left'
 };
 
-const Container = {
-  margin: 20,
-  position: 'relative'
-};
+const ImageContainer = {};
 const SelectedImage = {
   width: '100%',
   height: 500,
@@ -96,7 +93,20 @@ const SelectedImage = {
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover'
 };
-const Carousel = {
+
+const ImageMain = ({
+  selectedImage
+}) => {
+  return React.createElement("div", {
+    style: ImageContainer
+  }, React.createElement("div", {
+    style: { ...SelectedImage,
+      backgroundImage: `url(${selectedImage})`
+    }
+  }));
+};
+
+const CarouselContainer = {
   position: 'relative'
 };
 const Images = {
@@ -118,6 +128,63 @@ const Image = {
   backgroundSize: 'cover'
 };
 
+const Carousel = ({
+  images,
+  selectedImageIndex,
+  borderColorSelected,
+  carouselItemsRef,
+  handleSelectedImageChange,
+  setSelectedImageIndex,
+  setSelectedImage
+}) => {
+  useEffect(() => {
+    if (images && images[0]) {
+      carouselItemsRef.current = carouselItemsRef.current.slice(0, images.length);
+      setSelectedImageIndex(0);
+      setSelectedImage(images[0]);
+    }
+  }, [images]);
+
+  const handleClickImage = idx => {
+    handleSelectedImageChange(idx);
+  };
+
+  return React.createElement("div", {
+    style: CarouselContainer
+  }, React.createElement("div", {
+    style: Images
+  }, images && images.map((image, idx) => {
+    let imageStyle = { ...Image,
+      backgroundImage: `url(${image.url})`
+    };
+
+    if (selectedImageIndex === idx) {
+      imageStyle = { ...imageStyle,
+        ...ImageSelected,
+        borderColor: borderColorSelected
+      };
+    }
+
+    if (images.length - 1 === idx) {
+      imageStyle = { ...imageStyle,
+        marginRight: 0
+      };
+    }
+
+    return React.createElement("div", {
+      onClick: () => handleClickImage(idx),
+      style: imageStyle,
+      key: image.id,
+      ref: el => carouselItemsRef.current[idx] = el
+    });
+  })));
+};
+
+const Container = {
+  margin: 20,
+  position: 'relative'
+};
+
 const ReactFancyVitrine = ({
   images,
   containerWidth,
@@ -129,13 +196,6 @@ const ReactFancyVitrine = ({
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedImage, setSelectedImage] = useState();
   const carouselItemsRef = useRef([]);
-  useEffect(() => {
-    if (images && images[0]) {
-      carouselItemsRef.current = carouselItemsRef.current.slice(0, images.length);
-      setSelectedImageIndex(0);
-      setSelectedImage(images[0]);
-    }
-  }, [images]);
 
   const handleSelectedImageChange = newIdx => {
     if (images && images.length > 0) {
@@ -182,39 +242,17 @@ const ReactFancyVitrine = ({
       width: containerWidth
     },
     className: className
-  }, React.createElement("div", {
-    style: { ...SelectedImage,
-      backgroundImage: `url(${selectedImage === null || selectedImage === void 0 ? void 0 : selectedImage.url})`
-    }
-  }), React.createElement("div", {
-    style: Carousel
-  }, React.createElement("div", {
-    style: Images
-  }, images && images.map((image, idx) => {
-    let imageStyle = { ...Image,
-      backgroundImage: `url(${image.url})`
-    };
-
-    if (selectedImageIndex === idx) {
-      imageStyle = { ...imageStyle,
-        ...ImageSelected,
-        borderColor: borderColorSelected
-      };
-    }
-
-    if (images.length - 1 === idx) {
-      imageStyle = { ...imageStyle,
-        marginRight: 0
-      };
-    }
-
-    return React.createElement("div", {
-      onClick: () => handleSelectedImageChange(idx),
-      style: imageStyle,
-      key: image.id,
-      ref: el => carouselItemsRef.current[idx] = el
-    });
-  }))), React.createElement(ArrowButton, {
+  }, React.createElement(ImageMain, {
+    selectedImage: selectedImage === null || selectedImage === void 0 ? void 0 : selectedImage.url
+  }), React.createElement(Carousel, {
+    images: images,
+    selectedImageIndex: selectedImageIndex,
+    borderColorSelected: borderColorSelected,
+    handleSelectedImageChange: handleSelectedImageChange,
+    carouselItemsRef: carouselItemsRef,
+    setSelectedImage: setSelectedImage,
+    setSelectedImageIndex: setSelectedImageIndex
+  }), React.createElement(ArrowButton, {
     buttonDirection: 'left',
     buttonBgColor: buttonBgColor,
     buttonPosition: buttonPosition,

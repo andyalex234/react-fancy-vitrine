@@ -27,7 +27,7 @@ const definePositionButton = (buttonPosition: string | undefined, buttonDirectio
   }
 }
 
-type ArrowButtonProps = {
+export type ArrowButtonType = {
   buttonDirection: string | undefined;
   handleClick: React.MouseEventHandler<HTMLButtonElement>;
   buttonPosition: string | undefined;
@@ -45,7 +45,7 @@ type ArrowButtonProps = {
  * @param buttonBgColor: default: backgroundColor | backgroundColor when hover
  * @returns Component
  */
-const ArrowButton: React.FC<ArrowButtonProps> = ({ handleClick, buttonDirection, buttonPosition, buttonBgColor }) => {
+const ArrowButton: React.FC<ArrowButtonType> = ({ handleClick, buttonDirection, buttonPosition, buttonBgColor }) => {
   const [hoverButton, setHoverButton] = useState<boolean>(false)
   const ButtonDirectionSide = (buttonDirection === 'left' ? ButtonLeft : ButtonRight)
 
