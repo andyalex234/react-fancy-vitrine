@@ -145,7 +145,8 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
       containerWidth = _ref.containerWidth,
       borderColorSelected = _ref.borderColorSelected,
       buttonPosition = _ref.buttonPosition,
-      buttonBgColor = _ref.buttonBgColor;
+      buttonBgColor = _ref.buttonBgColor,
+      className = _ref.className;
 
   var _useState = React.useState(0),
       selectedImageIndex = _useState[0],
@@ -207,7 +208,8 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
   return React__default.createElement("div", {
     style: _extends({}, Container, {
       width: containerWidth
-    })
+    }),
+    className: className
   }, React__default.createElement("div", {
     style: _extends({}, SelectedImage, {
       backgroundImage: "url(" + (selectedImage === null || selectedImage === void 0 ? void 0 : selectedImage.url) + ")"

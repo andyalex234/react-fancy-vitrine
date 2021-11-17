@@ -24,6 +24,7 @@ type ReactFancyVitrineProps = {
     default?: string;
     hover?: string;
   };
+  className?: string;
 }
 
 const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
@@ -31,7 +32,8 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
   containerWidth,
   borderColorSelected,
   buttonPosition,
-  buttonBgColor
+  buttonBgColor,
+  className
 }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [selectedImage, setSelectedImage] = useState<ImageType>()
@@ -90,7 +92,7 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
   }
 
   return (
-    <div style={{ ...Container, width: containerWidth }}>
+    <div style={{ ...Container, width: containerWidth }} className={className}>
       <div style={{
         ...SelectedImage,
         backgroundImage: `url(${selectedImage?.url})`

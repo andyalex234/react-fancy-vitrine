@@ -123,7 +123,8 @@ const ReactFancyVitrine = ({
   containerWidth,
   borderColorSelected,
   buttonPosition,
-  buttonBgColor
+  buttonBgColor,
+  className
 }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedImage, setSelectedImage] = useState();
@@ -179,7 +180,8 @@ const ReactFancyVitrine = ({
   return React.createElement("div", {
     style: { ...Container,
       width: containerWidth
-    }
+    },
+    className: className
   }, React.createElement("div", {
     style: { ...SelectedImage,
       backgroundImage: `url(${selectedImage === null || selectedImage === void 0 ? void 0 : selectedImage.url})`

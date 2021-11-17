@@ -12,6 +12,7 @@ declare type ReactFancyVitrineProps = {
         default?: string;
         hover?: string;
     };
+    className?: string;
 };
 declare const ReactFancyVitrine: React.FC<ReactFancyVitrineProps>;
 export default ReactFancyVitrine;
