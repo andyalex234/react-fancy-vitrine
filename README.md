@@ -5,7 +5,7 @@
 [![NPM](https://img.shields.io/npm/v/react-fancy-vitrine.svg)](https://www.npmjs.com/package/react-fancy-vitrine) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Credits
-> A lib based on [react-image-carousel](https://github.com/davehowson/react-image-carousel).
+> A lib based on [react-image-carousel](https://github.com/davehowson/react-image-carousel) and [react-image-magnifiers](https://github.com/adamrisberg/react-image-magnifiers).
 
 ## Install
 

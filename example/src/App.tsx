@@ -18,6 +18,8 @@ export default function App() {
     <div>
       <ReactFancyVitrine
         images={images}
+        containerWidth={600}
+        borderColorSelected="#f4442e"
       />
     </div>
   );

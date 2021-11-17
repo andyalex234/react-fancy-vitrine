@@ -1,8 +1,8 @@
-._styles-module__carousel-container__6yaY6 {
+._styles__rfv__container__1dSn0 {
   margin: 20px;
 }
 
-._styles-module__selected-image__yryjZ {
+._styles__rfv__selected-image__1SGlj {
   width: 100%;
   height: 500px;
   margin-bottom: 8px;
@@ -11,21 +11,21 @@
   background-size: cover;
 }
 
-._styles-module__carousel__32wb1 {
+._styles__rfv__carousel__MrMKS {
   position: relative;
 }
 
-._styles-module__carousel__images__2XlkM {
+._styles__rfv__images__3ijVn {
   display: flex;
   max-width: 100%;
   overflow-x: hidden;
 }
 
-._styles-module__carousel__image-selected__1rOMt {
-  border: 3px solid #ffa700;
+._styles__rfv__image-selected__2PDPH {
+  border: 3px solid #ffa700 !important;
 }
 
-._styles-module__carousel__image__3ofos {
+._styles__rfv__image__30kG5 {
   margin-right: 10px;
   height: 150px;
   min-width: 150px;
@@ -35,64 +35,15 @@
   background-size: cover;
 }
 
-._styles-module__carousel__button__29WOB {
+._styles__rfv__button__11Ozt {
   position: absolute;
   top: 40%;
 }
 
-._styles-module__carousel__button-left__1Y7qz {
+._styles__rfv__button-left__3J641 {
   left: 10px;
 }
 
-._styles-module__carousel__button-right__3Adu2 {
-  right: 10px;
-}
-._styles__carousel-container__T4uKp {
-  margin: 20px;
-}
-
-._styles__selected-image__2RumO {
-  width: 100%;
-  height: 500px;
-  margin-bottom: 8px;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-._styles__carousel__1WzHI {
-  position: relative;
-}
-
-._styles__carousel__images__1T4Cl {
-  display: flex;
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-._styles__carousel__image-selected__1rtPF {
-  border: 3px solid #ffa700;
-}
-
-._styles__carousel__image__2UJK- {
-  margin-right: 10px;
-  height: 150px;
-  min-width: 150px;
-  border: 3px solid #ffa70000;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-._styles__carousel__button__8S1OI {
-  position: absolute;
-  top: 40%;
-}
-
-._styles__carousel__button-left__3Bqrl {
-  left: 10px;
-}
-
-._styles__carousel__button-right__2m81- {
+._styles__rfv__button-right__1bBWW {
   right: 10px;
 }

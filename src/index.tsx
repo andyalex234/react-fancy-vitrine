@@ -1,18 +1,33 @@
 import React, { useEffect, useRef, useState } from 'react'
+import ArrowButton from './components/ArrowButton'
 
 import {
-  ButtonDirection,
-  Carousel,
   Container,
-  ImageMain
+  SelectedImage,
+  Images,
+  ImageSelected,
+  Image,
+  Carousel
 } from './styles'
 
 export type ImageType = {
-  id: number,
-  url: string
+  id: number;
+  url: string;
 }
 
-const ReactFancyVitrine: React.FC<{ images?: ImageType[] }> = ({ images }: any) => {
+type ReactFancyVitrineProps = {
+  images?: ImageType[];
+  containerWidth?: string | number;
+  borderColorSelected?: string;
+  buttonPosition?: string;
+}
+
+const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
+  images,
+  containerWidth,
+  borderColorSelected,
+  buttonPosition
+}) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [selectedImage, setSelectedImage] = useState<ImageType>()
   const carouselItemsRef = useRef<HTMLDivElement[] | null[]>([])
@@ -70,39 +85,61 @@ const ReactFancyVitrine: React.FC<{ images?: ImageType[] }> = ({ images }: any) 
   }
 
   return (
-    <Container>
-      <ImageMain backgroundImage={selectedImage?.url} />
+    <div style={{ ...Container, width: containerWidth }}>
+      <div style={{
+        ...SelectedImage,
+        backgroundImage: `url(${selectedImage?.url})`
+      }}
+      />
 
-      <Carousel>
-        <div className='images'>
+      <div style={Carousel}>
+        <div style={Images}>
           {images &&
-            images.map((image: any, idx: any) => (
-              <div
-                onClick={() => handleSelectedImageChange(idx)}
-                style={{ backgroundImage: `url(${image.url})` }}
-                key={image.id}
-                className={`image ${selectedImageIndex === idx && 'image-selected'}`}
-                ref={(el) => (carouselItemsRef.current[idx] = el)}
-              />
-            ))}
+            images.map((image, idx) => {
+              let imageStyle: React.CSSProperties = {
+                ...Image,
+                backgroundImage: `url(${image.url})`
+              }
+
+              if (selectedImageIndex === idx) {
+                imageStyle = {
+                  ...imageStyle,
+                  ...ImageSelected,
+                  borderColor: borderColorSelected
+                }
+              }
+
+              return (
+                <div
+                  onClick={() => handleSelectedImageChange(idx)}
+                  style={imageStyle}
+                  key={image.id}
+                  ref={(el) => (carouselItemsRef.current[idx] = el)}
+                />
+              )
+            })}
         </div>
 
-        <ButtonDirection
-          className='button-left'
-          onClick={handleLeftClick}
-        >
-          Prev
-        </ButtonDirection>
+        <ArrowButton
+          buttonDirection='left'
+          buttonPosition={buttonPosition}
+          handleClick={handleLeftClick}
+        />
 
-        <ButtonDirection
-          className='button-right'
-          onClick={handleRightClick}
-        >
-          Next
-        </ButtonDirection>
-      </Carousel>
-    </Container>
+        <ArrowButton
+          buttonDirection='right'
+          buttonPosition={buttonPosition}
+          handleClick={handleRightClick}
+        />
+      </div>
+    </div>
   )
+}
+
+ReactFancyVitrine.defaultProps = {
+  containerWidth: 600,
+  borderColorSelected: '#732400',
+  buttonPosition: 'bottom'
 }
 
 export default ReactFancyVitrine

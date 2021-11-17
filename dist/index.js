@@ -3,8 +3,128 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var React = require('react');
 var React__default = _interopDefault(React);
 
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+var arrowLeft = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaWQ9IkxheWVyXzEiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ4IDQ4OyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgNDggNDgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnPjxwb2x5Z29uIHBvaW50cz0iMzAuOCw0NS43IDkuMSwyNCAzMC44LDIuMyAzMi4yLDMuNyAxMS45LDI0IDMyLjIsNDQuMyAgIi8+PC9nPjwvc3ZnPg==';
+
+var arrowRight = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaWQ9IkxheWVyXzEiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ4IDQ4OyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgNDggNDgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnPjxwb2x5Z29uIHBvaW50cz0iMTEuOCw0NS43IDEwLjQsNDQuMyAzMC44LDI0IDEwLjQsMy43IDExLjgsMi4zIDMzLjUsMjQgICIvPjwvZz48L3N2Zz4=';
+
+var Button = {
+  position: 'absolute',
+  top: '40%',
+  fontSize: 0,
+  letterSpacing: -5000,
+  background: '#f1f1f1 center no-repeat',
+  backgroundSize: 20,
+  width: 40,
+  height: 40,
+  padding: 10,
+  boxShadow: '0px 1px 5px #000',
+  borderRadius: '50%',
+  border: 0,
+  display: 'block',
+  cursor: 'pointer',
+  transition: 'all .3s ease'
+};
+var ButtonHover = {
+  backgroundColor: '#ddd'
+};
+var ButtonLeft = {
+  left: 10,
+  backgroundImage: "url(" + arrowLeft + ")"
+};
+var ButtonRight = {
+  right: 10,
+  backgroundImage: "url(" + arrowRight + ")"
+};
+
+var ArrowButton = function ArrowButton(_ref) {
+  var handleClick = _ref.handleClick,
+      buttonDirection = _ref.buttonDirection,
+      buttonPosition = _ref.buttonPosition;
+
+  var _useState = React.useState(false),
+      hoverButton = _useState[0],
+      setHoverButton = _useState[1];
+
+  var ButtonDirectionSide = buttonDirection === 'left' ? ButtonLeft : ButtonRight;
+
+  if (buttonPosition && buttonDirection !== 'default') {
+    ButtonDirectionSide[buttonPosition] -= 40;
+  }
+
+  var styleButtons = _extends({}, Button, ButtonDirectionSide);
+
+  if (hoverButton) {
+    styleButtons = _extends({}, styleButtons, ButtonHover);
+  }
+
+  var handleHoverButton = function handleHoverButton() {
+    setHoverButton(!hoverButton);
+  };
+
+  return React__default.createElement("button", {
+    style: styleButtons,
+    onMouseEnter: handleHoverButton,
+    onMouseOut: handleHoverButton,
+    onClick: handleClick
+  });
+};
+
+var Container = {
+  margin: '20px auto'
+};
+var SelectedImage = {
+  width: '100%',
+  height: 500,
+  marginBottom: 8,
+  backgroundPosition: 'center center',
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover'
+};
+var Carousel = {
+  position: 'relative'
+};
+var Images = {
+  display: 'flex',
+  maxWidth: '100%',
+  overflowX: 'hidden'
+};
+var borderSize = 3;
+var ImageSelected = {
+  border: borderSize + "px solid"
+};
+var Image = {
+  marginRight: 10,
+  height: 150,
+  minWidth: 150,
+  border: borderSize + "px solid #ffa70000",
+  backgroundPosition: 'center center',
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover'
+};
+
 var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
-  var images = _ref.images;
+  var images = _ref.images,
+      containerWidth = _ref.containerWidth,
+      borderColorSelected = _ref.borderColorSelected,
+      buttonPosition = _ref.buttonPosition;
 
   var _useState = React.useState(0),
       selectedImageIndex = _useState[0],
@@ -64,37 +184,53 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
   };
 
   return React__default.createElement("div", {
-    className: 'carousel-container'
+    style: _extends({}, Container, {
+      width: containerWidth
+    })
   }, React__default.createElement("div", {
-    className: 'selected-image',
-    style: {
+    style: _extends({}, SelectedImage, {
       backgroundImage: "url(" + (selectedImage === null || selectedImage === void 0 ? void 0 : selectedImage.url) + ")"
-    }
+    })
   }), React__default.createElement("div", {
-    className: 'carousel'
+    style: Carousel
   }, React__default.createElement("div", {
-    className: 'carousel__images'
+    style: Images
   }, images && images.map(function (image, idx) {
+    var imageStyle = _extends({}, Image, {
+      backgroundImage: "url(" + image.url + ")"
+    });
+
+    if (selectedImageIndex === idx) {
+      imageStyle = _extends({}, imageStyle, ImageSelected, {
+        borderColor: borderColorSelected
+      });
+    }
+
     return React__default.createElement("div", {
       onClick: function onClick() {
         return handleSelectedImageChange(idx);
       },
-      style: {
-        backgroundImage: "url(" + image.url + ")"
-      },
+      style: imageStyle,
       key: image.id,
-      className: "carousel__image " + (selectedImageIndex === idx && 'carousel__image-selected'),
       ref: function ref(el) {
         return carouselItemsRef.current[idx] = el;
       }
     });
-  })), React__default.createElement("button", {
-    className: 'carousel__button carousel__button-left',
-    onClick: handleLeftClick
-  }, "Prev"), React__default.createElement("button", {
-    className: 'carousel__button carousel__button-right',
-    onClick: handleRightClick
-  }, "Next")));
+  })), React__default.createElement(ArrowButton, {
+    buttonDirection: 'left',
+    buttonPosition: buttonPosition,
+    handleClick: handleLeftClick
+  }), React__default.createElement(ArrowButton, {
+    buttonDirection: 'right',
+    buttonPosition: buttonPosition,
+    handleClick: handleRightClick
+  })));
+};
+
+ReactFancyVitrine.defaultProps = {
+  containerWidth: 600,
+  borderColorSelected: '#732400',
+  buttonPosition: 'bottom'
 };
 
 module.exports = ReactFancyVitrine;
