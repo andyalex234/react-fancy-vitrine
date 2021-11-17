@@ -27,10 +27,11 @@ var arrowRight = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pjxzdmcg
 
 var Button = {
   position: 'absolute',
-  top: '40%',
+  top: '85%',
   fontSize: 0,
   letterSpacing: -5000,
-  background: '#f1f1f1 center no-repeat',
+  background: 'center no-repeat',
+  backgroundColor: '#f1f1f1',
   backgroundSize: 20,
   width: 40,
   height: 40,
@@ -54,24 +55,38 @@ var ButtonRight = {
   backgroundImage: "url(" + arrowRight + ")"
 };
 
+var definePositionButton = function definePositionButton(buttonPosition, buttonDirection, ButtonDirectionSide) {
+  var positions = ['default', 'default-outer', 'center', 'center-outer'];
+  if (buttonPosition !== undefined && !positions.includes(buttonPosition)) return;
+
+  if (buttonDirection && (buttonPosition === 'default-outer' || buttonPosition === 'center-outer')) {
+    ButtonDirectionSide[buttonDirection] -= 25;
+  }
+
+  if (buttonDirection && (buttonPosition === 'center' || buttonPosition === 'center-outer')) {
+    ButtonDirectionSide.top = '40%';
+  }
+};
+
 var ArrowButton = function ArrowButton(_ref) {
   var handleClick = _ref.handleClick,
       buttonDirection = _ref.buttonDirection,
-      buttonPosition = _ref.buttonPosition;
+      buttonPosition = _ref.buttonPosition,
+      buttonBgColor = _ref.buttonBgColor;
 
   var _useState = React.useState(false),
       hoverButton = _useState[0],
       setHoverButton = _useState[1];
 
   var ButtonDirectionSide = buttonDirection === 'left' ? ButtonLeft : ButtonRight;
-
-  if (buttonPosition && buttonDirection !== 'default') {
-    ButtonDirectionSide[buttonPosition] -= 40;
-  }
+  definePositionButton(buttonPosition, buttonDirection, ButtonDirectionSide);
 
   var styleButtons = _extends({}, Button, ButtonDirectionSide);
 
+  if (buttonBgColor && buttonBgColor["default"]) styleButtons.backgroundColor = buttonBgColor["default"];
+
   if (hoverButton) {
+    if (buttonBgColor && buttonBgColor.hover) ButtonHover.backgroundColor = buttonBgColor.hover;
     styleButtons = _extends({}, styleButtons, ButtonHover);
   }
 
@@ -87,8 +102,13 @@ var ArrowButton = function ArrowButton(_ref) {
   });
 };
 
+ArrowButton.defaultProps = {
+  buttonDirection: 'left'
+};
+
 var Container = {
-  margin: '20px auto'
+  margin: 20,
+  position: 'relative'
 };
 var SelectedImage = {
   width: '100%',
@@ -124,7 +144,8 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
   var images = _ref.images,
       containerWidth = _ref.containerWidth,
       borderColorSelected = _ref.borderColorSelected,
-      buttonPosition = _ref.buttonPosition;
+      buttonPosition = _ref.buttonPosition,
+      buttonBgColor = _ref.buttonBgColor;
 
   var _useState = React.useState(0),
       selectedImageIndex = _useState[0],
@@ -206,6 +227,12 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
       });
     }
 
+    if (images.length - 1 === idx) {
+      imageStyle = _extends({}, imageStyle, {
+        marginRight: 0
+      });
+    }
+
     return React__default.createElement("div", {
       onClick: function onClick() {
         return handleSelectedImageChange(idx);
@@ -216,15 +243,17 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
         return carouselItemsRef.current[idx] = el;
       }
     });
-  })), React__default.createElement(ArrowButton, {
+  }))), React__default.createElement(ArrowButton, {
     buttonDirection: 'left',
+    buttonBgColor: buttonBgColor,
     buttonPosition: buttonPosition,
     handleClick: handleLeftClick
   }), React__default.createElement(ArrowButton, {
     buttonDirection: 'right',
+    buttonBgColor: buttonBgColor,
     buttonPosition: buttonPosition,
     handleClick: handleRightClick
-  })));
+  }));
 };
 
 ReactFancyVitrine.defaultProps = {

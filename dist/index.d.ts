@@ -8,6 +8,10 @@ declare type ReactFancyVitrineProps = {
     containerWidth?: string | number;
     borderColorSelected?: string;
     buttonPosition?: string;
+    buttonBgColor?: {
+        default?: string;
+        hover?: string;
+    };
 };
 declare const ReactFancyVitrine: React.FC<ReactFancyVitrineProps>;
 export default ReactFancyVitrine;

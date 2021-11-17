@@ -20,13 +20,18 @@ type ReactFancyVitrineProps = {
   containerWidth?: string | number;
   borderColorSelected?: string;
   buttonPosition?: string;
+  buttonBgColor?: {
+    default?: string;
+    hover?: string;
+  };
 }
 
 const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
   images,
   containerWidth,
   borderColorSelected,
-  buttonPosition
+  buttonPosition,
+  buttonBgColor
 }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [selectedImage, setSelectedImage] = useState<ImageType>()
@@ -109,6 +114,13 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
                 }
               }
 
+              if ((images.length - 1) === idx) {
+                imageStyle = {
+                  ...imageStyle,
+                  marginRight: 0
+                }
+              }
+
               return (
                 <div
                   onClick={() => handleSelectedImageChange(idx)}
@@ -119,19 +131,21 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
               )
             })}
         </div>
-
-        <ArrowButton
-          buttonDirection='left'
-          buttonPosition={buttonPosition}
-          handleClick={handleLeftClick}
-        />
-
-        <ArrowButton
-          buttonDirection='right'
-          buttonPosition={buttonPosition}
-          handleClick={handleRightClick}
-        />
       </div>
+
+      <ArrowButton
+        buttonDirection='left'
+        buttonBgColor={buttonBgColor}
+        buttonPosition={buttonPosition}
+        handleClick={handleLeftClick}
+      />
+
+      <ArrowButton
+        buttonDirection='right'
+        buttonBgColor={buttonBgColor}
+        buttonPosition={buttonPosition}
+        handleClick={handleRightClick}
+      />
     </div>
   )
 }

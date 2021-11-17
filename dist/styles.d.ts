@@ -1,7 +1,5 @@
 /// <reference types="react" />
-declare const Container: {
-    margin: string;
-};
+declare const Container: import("react").CSSProperties;
 declare const SelectedImage: {
     width: string;
     height: number;

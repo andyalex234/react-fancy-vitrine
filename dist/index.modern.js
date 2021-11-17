@@ -6,10 +6,11 @@ var arrowRight = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pjxzdmcg
 
 const Button = {
   position: 'absolute',
-  top: '40%',
+  top: '85%',
   fontSize: 0,
   letterSpacing: -5000,
-  background: '#f1f1f1 center no-repeat',
+  background: 'center no-repeat',
+  backgroundColor: '#f1f1f1',
   backgroundSize: 20,
   width: 40,
   height: 40,
@@ -33,23 +34,35 @@ const ButtonRight = {
   backgroundImage: `url(${arrowRight})`
 };
 
+const definePositionButton = (buttonPosition, buttonDirection, ButtonDirectionSide) => {
+  const positions = ['default', 'default-outer', 'center', 'center-outer'];
+  if (buttonPosition !== undefined && !positions.includes(buttonPosition)) return;
+
+  if (buttonDirection && (buttonPosition === 'default-outer' || buttonPosition === 'center-outer')) {
+    ButtonDirectionSide[buttonDirection] -= 25;
+  }
+
+  if (buttonDirection && (buttonPosition === 'center' || buttonPosition === 'center-outer')) {
+    ButtonDirectionSide.top = '40%';
+  }
+};
+
 const ArrowButton = ({
   handleClick,
   buttonDirection,
-  buttonPosition
+  buttonPosition,
+  buttonBgColor
 }) => {
   const [hoverButton, setHoverButton] = useState(false);
   const ButtonDirectionSide = buttonDirection === 'left' ? ButtonLeft : ButtonRight;
-
-  if (buttonPosition && buttonDirection !== 'default') {
-    ButtonDirectionSide[buttonPosition] -= 40;
-  }
-
+  definePositionButton(buttonPosition, buttonDirection, ButtonDirectionSide);
   let styleButtons = { ...Button,
     ...ButtonDirectionSide
   };
+  if (buttonBgColor && buttonBgColor.default) styleButtons.backgroundColor = buttonBgColor.default;
 
   if (hoverButton) {
+    if (buttonBgColor && buttonBgColor.hover) ButtonHover.backgroundColor = buttonBgColor.hover;
     styleButtons = { ...styleButtons,
       ...ButtonHover
     };
@@ -67,8 +80,13 @@ const ArrowButton = ({
   });
 };
 
+ArrowButton.defaultProps = {
+  buttonDirection: 'left'
+};
+
 const Container = {
-  margin: '20px auto'
+  margin: 20,
+  position: 'relative'
 };
 const SelectedImage = {
   width: '100%',
@@ -104,7 +122,8 @@ const ReactFancyVitrine = ({
   images,
   containerWidth,
   borderColorSelected,
-  buttonPosition
+  buttonPosition,
+  buttonBgColor
 }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedImage, setSelectedImage] = useState();
@@ -181,21 +200,29 @@ const ReactFancyVitrine = ({
       };
     }
 
+    if (images.length - 1 === idx) {
+      imageStyle = { ...imageStyle,
+        marginRight: 0
+      };
+    }
+
     return React.createElement("div", {
       onClick: () => handleSelectedImageChange(idx),
       style: imageStyle,
       key: image.id,
       ref: el => carouselItemsRef.current[idx] = el
     });
-  })), React.createElement(ArrowButton, {
+  }))), React.createElement(ArrowButton, {
     buttonDirection: 'left',
+    buttonBgColor: buttonBgColor,
     buttonPosition: buttonPosition,
     handleClick: handleLeftClick
   }), React.createElement(ArrowButton, {
     buttonDirection: 'right',
+    buttonBgColor: buttonBgColor,
     buttonPosition: buttonPosition,
     handleClick: handleRightClick
-  })));
+  }));
 };
 
 ReactFancyVitrine.defaultProps = {

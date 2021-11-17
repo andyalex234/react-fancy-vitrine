@@ -3,10 +3,11 @@ import arrowRight from '../../assets/arrow-right'
 
 const Button = {
   position: 'absolute',
-  top: '40%',
+  top: '85%',
   fontSize: 0,
   letterSpacing: -5000,
-  background: '#f1f1f1 center no-repeat',
+  background: 'center no-repeat',
+  backgroundColor: '#f1f1f1',
   backgroundSize: 20,
   width: 40,
   height: 40,

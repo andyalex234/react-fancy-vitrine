@@ -15,11 +15,15 @@ export default function App() {
   }, []);
 
   return (
-    <div>
+    <div className='App'>
       <ReactFancyVitrine
         images={images}
         containerWidth={600}
-        borderColorSelected="#f4442e"
+        borderColorSelected='#f4442e'
+        buttonBgColor={{
+          default: '#f1f1f1',
+          hover: '#ddd'
+        }}
       />
     </div>
   );

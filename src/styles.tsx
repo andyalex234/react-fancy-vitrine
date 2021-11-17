@@ -1,6 +1,7 @@
 const Container = {
-  margin: '20px auto'
-}
+  margin: 20,
+  position: 'relative'
+} as React.CSSProperties
 
 const SelectedImage = {
   width: '100%',
