@@ -16,9 +16,15 @@ export default function App() {
 
   return (
     <div className='App'>
+      <h1 className="header-presentation">
+        React Fancy Vitrine
+      </h1>
+
       <ReactFancyVitrine
         images={images}
         containerWidth={600}
+        effect='fade'
+        timingEffect={300}
         borderColorSelected='#f4442e'
         buttonBgColor={{
           default: '#f1f1f1',

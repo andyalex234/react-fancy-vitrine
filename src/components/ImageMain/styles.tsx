@@ -1,6 +1,8 @@
 
 const ImageContainer = {
-
+  transitionTimingFunction: 'ease',
+  transitionProperty: 'all',
+  transitionDuration: '.5s'
 }
 
 const SelectedImage = {

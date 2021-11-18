@@ -17,6 +17,8 @@ type ReactFancyVitrineProps = {
     hover?: string;
   };
   className?: string;
+  effect?: string;
+  timingEffect?: number;
 }
 
 const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
@@ -25,13 +27,16 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
   borderColorSelected,
   buttonPosition,
   buttonBgColor,
-  className
+  className,
+  effect,
+  timingEffect
 }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [selectedImage, setSelectedImage] = useState<ImageType>()
+  const [transitionImage, setTransitionImage] = useState(false)
   const carouselItemsRef = useRef<HTMLDivElement[] | null[]>([])
 
-  const handleSelectedImageChange = (newIdx: number) => {
+  const executeTransation = (newIdx: number) => {
     if (images && images.length > 0) {
       setSelectedImage(images[newIdx])
       setSelectedImageIndex(newIdx)
@@ -44,6 +49,19 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
           }
         )
       }
+    }
+  }
+
+  const handleSelectedImageChange = (newIdx: number) => {
+    if (effect !== 'default') {
+      setTransitionImage(true)
+
+      setTimeout(() => {
+        executeTransation(newIdx)
+        setTransitionImage(false)
+      }, timingEffect)
+    } else {
+      executeTransation(newIdx)
     }
   }
 
@@ -74,6 +92,8 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
   return (
     <div style={{ ...Container, width: containerWidth }} className={className}>
       <ImageMain
+        effect={effect}
+        transitionImage={transitionImage}
         selectedImage={selectedImage?.url}
       />
 
@@ -107,7 +127,9 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
 ReactFancyVitrine.defaultProps = {
   containerWidth: 600,
   borderColorSelected: '#732400',
-  buttonPosition: 'bottom'
+  buttonPosition: 'bottom',
+  timingEffect: 300,
+  effect: 'default'
 }
 
 export default ReactFancyVitrine

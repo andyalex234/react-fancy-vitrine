@@ -106,7 +106,11 @@ ArrowButton.defaultProps = {
   buttonDirection: 'left'
 };
 
-var ImageContainer = {};
+var ImageContainer = {
+  transitionTimingFunction: 'ease',
+  transitionProperty: 'all',
+  transitionDuration: '.5s'
+};
 var SelectedImage = {
   width: '100%',
   height: 500,
@@ -116,10 +120,30 @@ var SelectedImage = {
   backgroundSize: 'cover'
 };
 
+var transitionsAnimate = {
+  "default": function _default() {
+    return {};
+  },
+  fade: function fade(transitionImage) {
+    if (transitionImage) return {
+      opacity: 0
+    };
+    return {
+      opacity: 1
+    };
+  }
+};
+
 var ImageMain = function ImageMain(_ref) {
-  var selectedImage = _ref.selectedImage;
+  var selectedImage = _ref.selectedImage,
+      transitionImage = _ref.transitionImage,
+      effect = _ref.effect;
+
+  var defaultStyles = _extends({}, ImageContainer);
+
+  if (effect) defaultStyles = _extends({}, defaultStyles, transitionsAnimate[effect](transitionImage));
   return React__default.createElement("div", {
-    style: ImageContainer
+    style: defaultStyles
   }, React__default.createElement("div", {
     style: _extends({}, SelectedImage, {
       backgroundImage: "url(" + selectedImage + ")"
@@ -214,7 +238,9 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
       borderColorSelected = _ref.borderColorSelected,
       buttonPosition = _ref.buttonPosition,
       buttonBgColor = _ref.buttonBgColor,
-      className = _ref.className;
+      className = _ref.className,
+      effect = _ref.effect,
+      timingEffect = _ref.timingEffect;
 
   var _useState = React.useState(0),
       selectedImageIndex = _useState[0],
@@ -224,9 +250,13 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
       selectedImage = _useState2[0],
       setSelectedImage = _useState2[1];
 
+  var _useState3 = React.useState(false),
+      transitionImage = _useState3[0],
+      setTransitionImage = _useState3[1];
+
   var carouselItemsRef = React.useRef([]);
 
-  var handleSelectedImageChange = function handleSelectedImageChange(newIdx) {
+  var executeTransation = function executeTransation(newIdx) {
     if (images && images.length > 0) {
       setSelectedImage(images[newIdx]);
       setSelectedImageIndex(newIdx);
@@ -239,6 +269,18 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
           behavior: 'smooth'
         });
       }
+    }
+  };
+
+  var handleSelectedImageChange = function handleSelectedImageChange(newIdx) {
+    if (effect !== 'default') {
+      setTransitionImage(true);
+      setTimeout(function () {
+        executeTransation(newIdx);
+        setTransitionImage(false);
+      }, timingEffect);
+    } else {
+      executeTransation(newIdx);
     }
   };
 
@@ -272,6 +314,8 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
     }),
     className: className
   }, React__default.createElement(ImageMain, {
+    effect: effect,
+    transitionImage: transitionImage,
     selectedImage: selectedImage === null || selectedImage === void 0 ? void 0 : selectedImage.url
   }), React__default.createElement(Carousel, {
     images: images,
@@ -297,7 +341,9 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
 ReactFancyVitrine.defaultProps = {
   containerWidth: 600,
   borderColorSelected: '#732400',
-  buttonPosition: 'bottom'
+  buttonPosition: 'bottom',
+  timingEffect: 300,
+  effect: 'default'
 };
 
 module.exports = ReactFancyVitrine;
