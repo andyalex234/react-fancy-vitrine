@@ -9,9 +9,9 @@ declare type ReactFancyVitrineProps = {
         default?: string;
         hover?: string;
     };
-    className?: string;
     effect?: string;
     timingEffect?: number;
+    className?: string;
 };
 declare const ReactFancyVitrine: React.FC<ReactFancyVitrineProps>;
 export default ReactFancyVitrine;

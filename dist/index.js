@@ -106,10 +106,52 @@ ArrowButton.defaultProps = {
   buttonDirection: 'left'
 };
 
+var ContainerLens = {
+  width: 100,
+  height: 100,
+  backgroundSize: '100%',
+  backgroundRepeat: 'no-repeat',
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  zIndex: 99
+};
+
+var Lens = function Lens(_ref) {
+  var image = _ref.image,
+      mouseX = _ref.mouseX,
+      mouseY = _ref.mouseY,
+      setRef = _ref.setRef;
+
+  var _useState = React.useState(null),
+      elementRef = _useState[0],
+      setElementRef = _useState[1];
+
+  React.useEffect(function () {
+    setElementRef(setRef);
+  });
+  return React__default.createElement("div", {
+    ref: elementRef,
+    style: _extends({}, ContainerLens, {
+      backgroundImage: "url(" + image + ")",
+      transform: "translate3d(" + mouseX + "px, " + mouseY + "px, 0)"
+    })
+  });
+};
+
 var ImageContainer = {
-  transitionTimingFunction: 'ease',
-  transitionProperty: 'all',
-  transitionDuration: '.5s'
+  transition: 'all .5s ease',
+  position: 'relative'
+};
+var ContainerHovered = {
+  width: '100%',
+  height: '100%',
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  backgroundColor: 'rgba(0, 0, 0, .5)',
+  transition: 'opacity .5s ease',
+  zIndex: 89
 };
 var SelectedImage = {
   width: '100%',
@@ -139,12 +181,52 @@ var ImageMain = function ImageMain(_ref) {
       transitionImage = _ref.transitionImage,
       effect = _ref.effect;
 
-  var defaultStyles = _extends({}, ImageContainer);
+  var _useState = React.useState(false),
+      lensShows = _useState[0],
+      setLensShows = _useState[1];
 
+  var defaultStyles = ImageContainer;
   if (effect) defaultStyles = _extends({}, defaultStyles, transitionsAnimate[effect](transitionImage));
+
+  var renderLens = function renderLens() {
+    setLensShows(!lensShows);
+  };
+
+  var elementLens = React.useRef();
+  var elementImageMain = React.useRef();
+
+  var _useState2 = React.useState(0),
+      mouseX = _useState2[0],
+      setMouseX = _useState2[1];
+
+  var _useState3 = React.useState(0),
+      mouseY = _useState3[0],
+      setMouseY = _useState3[1];
+
+  var handleMouseMove = function handleMouseMove(event) {
+    var clientX = event.clientX,
+        clientY = event.clientY;
+    console.log(elementLens.current.offsetBottom, elementImageMain.current.node.getBoundingClientRect());
+    setMouseX(clientX);
+    setMouseY(clientY);
+  };
+
   return React__default.createElement("div", {
-    style: defaultStyles
+    ref: elementImageMain,
+    style: defaultStyles,
+    onMouseEnter: renderLens,
+    onMouseLeave: renderLens,
+    onMouseMove: handleMouseMove
   }, React__default.createElement("div", {
+    style: _extends({}, ContainerHovered, {
+      opacity: lensShows ? 1 : 0
+    })
+  }), React__default.createElement(Lens, {
+    setRef: elementLens,
+    mouseX: mouseX,
+    mouseY: mouseY,
+    image: selectedImage
+  }), React__default.createElement("div", {
     style: _extends({}, SelectedImage, {
       backgroundImage: "url(" + selectedImage + ")"
     })

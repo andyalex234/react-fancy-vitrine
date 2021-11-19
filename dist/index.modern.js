@@ -84,10 +84,49 @@ ArrowButton.defaultProps = {
   buttonDirection: 'left'
 };
 
+const ContainerLens = {
+  width: 100,
+  height: 100,
+  backgroundSize: '100%',
+  backgroundRepeat: 'no-repeat',
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  zIndex: 99
+};
+
+const Lens = ({
+  image,
+  mouseX,
+  mouseY,
+  setRef
+}) => {
+  const [elementRef, setElementRef] = useState(null);
+  useEffect(() => {
+    setElementRef(setRef);
+  });
+  return React.createElement("div", {
+    ref: elementRef,
+    style: { ...ContainerLens,
+      backgroundImage: `url(${image})`,
+      transform: `translate3d(${mouseX}px, ${mouseY}px, 0)`
+    }
+  });
+};
+
 const ImageContainer = {
-  transitionTimingFunction: 'ease',
-  transitionProperty: 'all',
-  transitionDuration: '.5s'
+  transition: 'all .5s ease',
+  position: 'relative'
+};
+const ContainerHovered = {
+  width: '100%',
+  height: '100%',
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  backgroundColor: 'rgba(0, 0, 0, .5)',
+  transition: 'opacity .5s ease',
+  zIndex: 89
 };
 const SelectedImage = {
   width: '100%',
@@ -115,14 +154,47 @@ const ImageMain = ({
   transitionImage,
   effect
 }) => {
-  let defaultStyles = { ...ImageContainer
-  };
+  const [lensShows, setLensShows] = useState(false);
+  let defaultStyles = ImageContainer;
   if (effect) defaultStyles = { ...defaultStyles,
     ...transitionsAnimate[effect](transitionImage)
   };
+
+  const renderLens = () => {
+    setLensShows(!lensShows);
+  };
+
+  const elementLens = useRef();
+  const elementImageMain = useRef();
+  const [mouseX, setMouseX] = useState(0);
+  const [mouseY, setMouseY] = useState(0);
+
+  const handleMouseMove = event => {
+    const {
+      clientX,
+      clientY
+    } = event;
+    console.log(elementLens.current.offsetBottom, elementImageMain.current.node.getBoundingClientRect());
+    setMouseX(clientX);
+    setMouseY(clientY);
+  };
+
   return React.createElement("div", {
-    style: defaultStyles
+    ref: elementImageMain,
+    style: defaultStyles,
+    onMouseEnter: renderLens,
+    onMouseLeave: renderLens,
+    onMouseMove: handleMouseMove
   }, React.createElement("div", {
+    style: { ...ContainerHovered,
+      opacity: lensShows ? 1 : 0
+    }
+  }), React.createElement(Lens, {
+    setRef: elementLens,
+    mouseX: mouseX,
+    mouseY: mouseY,
+    image: selectedImage
+  }), React.createElement("div", {
     style: { ...SelectedImage,
       backgroundImage: `url(${selectedImage})`
     }

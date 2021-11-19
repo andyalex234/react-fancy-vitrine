@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
+import { useRect } from '../../hooks/useRect'
+import Lens from '../Lens'
 
 import {
   ImageContainer,
-  SelectedImage
+  SelectedImage,
+  ContainerHovered
 } from './styles'
 
 const transitionsAnimate = {
@@ -26,9 +29,9 @@ type ImageMainProps = {
 }
 
 const ImageMain: React.FC<ImageMainProps> = ({ selectedImage, transitionImage, effect }) => {
-  let defaultStyles = {
-    ...ImageContainer
-  }
+  const [lensShows, setLensShows] = useState(false)
+
+  let defaultStyles = ImageContainer
 
   if (effect)
     defaultStyles = {
@@ -36,8 +39,50 @@ const ImageMain: React.FC<ImageMainProps> = ({ selectedImage, transitionImage, e
       ...(transitionsAnimate[effect](transitionImage))
     }
 
+  const renderLens = () => {
+    setLensShows(!lensShows)
+  }
+
+  const elementLens = useRef<any>()
+  const elementImageMain = useRef<any>()
+  const [mouseX, setMouseX] = useState(0)
+  const [mouseY, setMouseY] = useState(0)
+
+  const handleMouseMove = (event: React.MouseEvent<HTMLElement>) => {
+    const { clientX, clientY } = event
+
+    // const offsetX = elementLens.current.offsetLeft
+    // const offsetY = elementLens.current.offsetTop
+
+    console.log(useRect(elementLens), elementImageMain.current.node.getBoundingClientRect())
+
+    // console.log(offsetX, clientX)
+
+    setMouseX(clientX)
+    setMouseY(clientY)
+  }
+
   return (
-    <div style={defaultStyles}>
+    <div
+      ref={elementImageMain}
+      style={defaultStyles}
+      onMouseEnter={renderLens}
+      onMouseLeave={renderLens}
+      onMouseMove={handleMouseMove}
+    >
+      <div style={{
+        ...ContainerHovered,
+        opacity: lensShows ? 1 : 0
+      }}
+      />
+
+      <Lens
+        setRef={elementLens}
+        mouseX={mouseX}
+        mouseY={mouseY}
+        image={selectedImage}
+      />
+
       <div style={{
         ...SelectedImage,
         backgroundImage: `url(${selectedImage})`

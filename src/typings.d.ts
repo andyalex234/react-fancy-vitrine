@@ -15,3 +15,9 @@ declare module '*.svg' {
 }
 
 declare module '*.png'
+
+declare interface ResizeObserver {
+  observe(target: Element): void;
+  unobserve(target: Element): void;
+  disconnect(): void;
+}

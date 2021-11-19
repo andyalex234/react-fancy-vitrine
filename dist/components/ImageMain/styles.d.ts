@@ -1,8 +1,6 @@
-declare const ImageContainer: {
-    transitionTimingFunction: string;
-    transitionProperty: string;
-    transitionDuration: string;
-};
+/// <reference types="react" />
+declare const ImageContainer: import("react").CSSProperties;
+declare const ContainerHovered: import("react").CSSProperties;
 declare const SelectedImage: {
     width: string;
     height: number;
@@ -11,4 +9,4 @@ declare const SelectedImage: {
     backgroundRepeat: string;
     backgroundSize: string;
 };
-export { ImageContainer, SelectedImage };
+export { ImageContainer, SelectedImage, ContainerHovered };
