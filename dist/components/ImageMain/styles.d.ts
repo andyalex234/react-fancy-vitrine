@@ -9,4 +9,7 @@ declare const SelectedImage: {
     backgroundRepeat: string;
     backgroundSize: string;
 };
-export { ImageContainer, SelectedImage, ContainerHovered };
+declare const ImageContainerFancy: {
+    marginBottom: number;
+};
+export { ImageContainer, SelectedImage, ContainerHovered, ImageContainerFancy };

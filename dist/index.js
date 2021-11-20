@@ -177,6 +177,9 @@ var SelectedImage = {
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover'
 };
+var ImageContainerFancy = {
+  marginBottom: 0
+};
 
 var transitionsAnimate = {
   "default": function _default() {
@@ -195,7 +198,8 @@ var transitionsAnimate = {
 var ImageMain = function ImageMain(_ref) {
   var selectedImage = _ref.selectedImage,
       transitionImage = _ref.transitionImage,
-      effect = _ref.effect;
+      effect = _ref.effect,
+      theme = _ref.theme;
 
   var _useState = React.useState(false),
       lensShows = _useState[0],
@@ -203,6 +207,7 @@ var ImageMain = function ImageMain(_ref) {
 
   var defaultStyles = ImageContainer;
   if (effect) defaultStyles = _extends({}, defaultStyles, transitionsAnimate[effect](transitionImage));
+  if (theme === 'fancy') defaultStyles = _extends({}, defaultStyles, ImageContainerFancy);
   var elementImageMain = React.createRef();
   var elementLens = React.createRef();
 
@@ -268,6 +273,86 @@ var ImageMain = function ImageMain(_ref) {
   }));
 };
 
+var borderSize = 3;
+var ImageSelected = {
+  border: borderSize + "px solid",
+  cursor: 'default'
+};
+var Thumb = {
+  marginRight: 10,
+  height: 150,
+  minWidth: 150,
+  border: borderSize + "px solid #ffa70000",
+  backgroundPosition: 'center center',
+  backgroundRepeat: 'no-repeat',
+  transition: 'background-size .3s ease',
+  cursor: 'pointer'
+};
+var ThumbFancy = {
+  border: '0',
+  marginRight: 0
+};
+
+var ThumbCarousel = function ThumbCarousel(_ref) {
+  var selectedImageIndex = _ref.selectedImageIndex,
+      borderColorSelected = _ref.borderColorSelected,
+      image = _ref.image,
+      idx = _ref.idx,
+      imagesAmount = _ref.imagesAmount,
+      carouselItemsRef = _ref.carouselItemsRef,
+      theme = _ref.theme,
+      handleSelectedImageChange = _ref.handleSelectedImageChange;
+
+  var _useState = React.useState(false),
+      thumbHovered = _useState[0],
+      setThumbHovered = _useState[1];
+
+  var handleClickImage = function handleClickImage(idx) {
+    handleSelectedImageChange(idx);
+  };
+
+  var handleHover = function handleHover() {
+    setThumbHovered(!thumbHovered);
+  };
+
+  var imageStyle = _extends({}, Thumb, {
+    backgroundImage: "url(" + image.url + ")"
+  });
+
+  if (selectedImageIndex === idx) {
+    imageStyle = _extends({}, imageStyle, ImageSelected, {
+      borderColor: borderColorSelected,
+      backgroundSize: '100%'
+    });
+  } else {
+    imageStyle = _extends({}, imageStyle, {
+      backgroundSize: thumbHovered ? '105%' : '100%'
+    });
+  }
+
+  if (imagesAmount - 1 === idx) {
+    imageStyle = _extends({}, imageStyle, {
+      marginRight: 0
+    });
+  }
+
+  if (theme === 'fancy') {
+    imageStyle = _extends({}, imageStyle, ThumbFancy);
+  }
+
+  return React__default.createElement("div", {
+    onClick: function onClick() {
+      return handleClickImage(idx);
+    },
+    style: _extends({}, imageStyle),
+    ref: function ref(el) {
+      carouselItemsRef.current[idx] = el;
+    },
+    onMouseEnter: handleHover,
+    onMouseLeave: handleHover
+  });
+};
+
 var CarouselContainer = {
   position: 'relative',
   zIndex: 100,
@@ -278,28 +363,16 @@ var Images = {
   maxWidth: '100%',
   overflowX: 'hidden'
 };
-var borderSize = 3;
-var ImageSelected = {
-  border: borderSize + "px solid"
-};
-var Image = {
-  marginRight: 10,
-  height: 150,
-  minWidth: 150,
-  border: borderSize + "px solid #ffa70000",
-  backgroundPosition: 'center center',
-  backgroundRepeat: 'no-repeat',
-  backgroundSize: 'cover'
-};
 
 var Carousel = function Carousel(_ref) {
   var images = _ref.images,
-      selectedImageIndex = _ref.selectedImageIndex,
-      borderColorSelected = _ref.borderColorSelected,
       carouselItemsRef = _ref.carouselItemsRef,
       handleSelectedImageChange = _ref.handleSelectedImageChange,
       setSelectedImageIndex = _ref.setSelectedImageIndex,
-      setSelectedImage = _ref.setSelectedImage;
+      setSelectedImage = _ref.setSelectedImage,
+      selectedImageIndex = _ref.selectedImageIndex,
+      borderColorSelected = _ref.borderColorSelected,
+      theme = _ref.theme;
   React.useEffect(function () {
     if (images && images[0]) {
       carouselItemsRef.current = carouselItemsRef.current.slice(0, images.length);
@@ -307,41 +380,21 @@ var Carousel = function Carousel(_ref) {
       setSelectedImage(images[0]);
     }
   }, [images]);
-
-  var handleClickImage = function handleClickImage(idx) {
-    handleSelectedImageChange(idx);
-  };
-
   return React__default.createElement("div", {
     style: CarouselContainer
   }, React__default.createElement("div", {
     style: Images
   }, images && images.map(function (image, idx) {
-    var imageStyle = _extends({}, Image, {
-      backgroundImage: "url(" + image.url + ")"
-    });
-
-    if (selectedImageIndex === idx) {
-      imageStyle = _extends({}, imageStyle, ImageSelected, {
-        borderColor: borderColorSelected
-      });
-    }
-
-    if (images.length - 1 === idx) {
-      imageStyle = _extends({}, imageStyle, {
-        marginRight: 0
-      });
-    }
-
-    return React__default.createElement("div", {
-      onClick: function onClick() {
-        return handleClickImage(idx);
-      },
-      style: imageStyle,
-      key: image.id && idx,
-      ref: function ref(el) {
-        carouselItemsRef.current[idx] = el;
-      }
+    return React__default.createElement(ThumbCarousel, {
+      theme: theme,
+      borderColorSelected: borderColorSelected,
+      selectedImageIndex: selectedImageIndex,
+      carouselItemsRef: carouselItemsRef,
+      handleSelectedImageChange: handleSelectedImageChange,
+      idx: idx,
+      image: image,
+      imagesAmount: images.length,
+      key: image.id && idx
     });
   })));
 };
@@ -363,7 +416,8 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
       className = _ref.className,
       effect = _ref.effect,
       timingEffect = _ref.timingEffect,
-      hasButtons = _ref.hasButtons;
+      hasButtons = _ref.hasButtons,
+      theme = _ref.theme;
 
   var _useState = React.useState(0),
       selectedImageIndex = _useState[0],
@@ -438,10 +492,12 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
     }),
     className: className
   }, React__default.createElement(ImageMain, {
+    theme: theme,
     effect: effect,
     transitionImage: transitionImage,
     selectedImage: selectedImage === null || selectedImage === void 0 ? void 0 : selectedImage.url
   }), React__default.createElement(Carousel, {
+    theme: theme,
     images: images,
     selectedImageIndex: selectedImageIndex,
     borderColorSelected: borderColorSelected,
@@ -468,7 +524,8 @@ ReactFancyVitrine.defaultProps = {
   buttonPosition: 'bottom',
   timingEffect: 300,
   effect: 'default',
-  hasButtons: true
+  hasButtons: true,
+  theme: 'default'
 };
 
 module.exports = ReactFancyVitrine;

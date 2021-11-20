@@ -13,6 +13,7 @@ export declare type ReactFancyVitrineType = {
     timingEffect?: number;
     hasButtons?: boolean;
     className?: string;
+    theme?: string;
 };
 declare const ReactFancyVitrine: React.FC<ReactFancyVitrineType>;
 export default ReactFancyVitrine;

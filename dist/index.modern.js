@@ -1,28 +1,10 @@
 import React, { useState, createRef, useEffect, useRef } from 'react';
 
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
 var arrowLeft = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaWQ9IkxheWVyXzEiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ4IDQ4OyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgNDggNDgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnPjxwb2x5Z29uIHBvaW50cz0iMzAuOCw0NS43IDkuMSwyNCAzMC44LDIuMyAzMi4yLDMuNyAxMS45LDI0IDMyLjIsNDQuMyAgIi8+PC9nPjwvc3ZnPg==';
 
 var arrowRight = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaWQ9IkxheWVyXzEiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ4IDQ4OyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgNDggNDgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnPjxwb2x5Z29uIHBvaW50cz0iMTEuOCw0NS43IDEwLjQsNDQuMyAzMC44LDI0IDEwLjQsMy43IDExLjgsMi4zIDMzLjUsMjQgICIvPjwvZz48L3N2Zz4=';
 
-var Button = {
+const Button = {
   position: 'absolute',
   top: '85%',
   fontSize: 0,
@@ -41,20 +23,20 @@ var Button = {
   cursor: 'pointer',
   transition: 'all .3s ease'
 };
-var ButtonHover = {
+const ButtonHover = {
   backgroundColor: '#ddd'
 };
-var ButtonLeft = {
+const ButtonLeft = {
   left: 10,
-  backgroundImage: "url(" + arrowLeft + ")"
+  backgroundImage: `url(${arrowLeft})`
 };
-var ButtonRight = {
+const ButtonRight = {
   right: 10,
-  backgroundImage: "url(" + arrowRight + ")"
+  backgroundImage: `url(${arrowRight})`
 };
 
-var definePositionButton = function definePositionButton(buttonPosition, buttonDirection, ButtonDirectionSide) {
-  var positions = ['default', 'default-outer', 'center', 'center-outer'];
+const definePositionButton = (buttonPosition, buttonDirection, ButtonDirectionSide) => {
+  const positions = ['default', 'default-outer', 'center', 'center-outer'];
   if (buttonPosition !== undefined && !positions.includes(buttonPosition)) return;
 
   if (buttonDirection && (buttonPosition === 'default-outer' || buttonPosition === 'center-outer')) {
@@ -66,29 +48,28 @@ var definePositionButton = function definePositionButton(buttonPosition, buttonD
   }
 };
 
-var ArrowButton = function ArrowButton(_ref) {
-  var handleClick = _ref.handleClick,
-      buttonDirection = _ref.buttonDirection,
-      buttonPosition = _ref.buttonPosition,
-      buttonBgColor = _ref.buttonBgColor;
-
-  var _useState = useState(false),
-      hoverButton = _useState[0],
-      setHoverButton = _useState[1];
-
-  var ButtonDirectionSide = buttonDirection === 'left' ? ButtonLeft : ButtonRight;
+const ArrowButton = ({
+  handleClick,
+  buttonDirection,
+  buttonPosition,
+  buttonBgColor
+}) => {
+  const [hoverButton, setHoverButton] = useState(false);
+  const ButtonDirectionSide = buttonDirection === 'left' ? ButtonLeft : ButtonRight;
   definePositionButton(buttonPosition, buttonDirection, ButtonDirectionSide);
-
-  var styleButtons = _extends({}, Button, ButtonDirectionSide);
-
-  if (buttonBgColor && buttonBgColor["default"]) styleButtons.backgroundColor = buttonBgColor["default"];
+  let styleButtons = { ...Button,
+    ...ButtonDirectionSide
+  };
+  if (buttonBgColor && buttonBgColor.default) styleButtons.backgroundColor = buttonBgColor.default;
 
   if (hoverButton) {
     if (buttonBgColor && buttonBgColor.hover) ButtonHover.backgroundColor = buttonBgColor.hover;
-    styleButtons = _extends({}, styleButtons, ButtonHover);
+    styleButtons = { ...styleButtons,
+      ...ButtonHover
+    };
   }
 
-  var handleHoverButton = function handleHoverButton() {
+  const handleHoverButton = () => {
     setHoverButton(!hoverButton);
   };
 
@@ -104,7 +85,7 @@ ArrowButton.defaultProps = {
   buttonDirection: 'left'
 };
 
-var ContainerLens = {
+const ContainerLens = {
   position: 'absolute',
   top: 0,
   left: 0,
@@ -114,7 +95,7 @@ var ContainerLens = {
   boxSizing: 'border-box',
   border: '1px solid #000'
 };
-var ImageLens = {
+const ImageLens = {
   backgroundRepeat: 'no-repeat',
   position: 'absolute',
   top: 0,
@@ -123,40 +104,41 @@ var ImageLens = {
   boxSizing: 'border-box'
 };
 
-var Lens = function Lens(_ref) {
-  var image = _ref.image,
-      mouseX = _ref.mouseX,
-      mouseY = _ref.mouseY,
-      setRef = _ref.setRef,
-      imageMainSize = _ref.imageMainSize,
-      visible = _ref.visible;
-  var lensSize = 150;
-  var approximation = 3;
+const Lens = ({
+  image,
+  mouseX,
+  mouseY,
+  setRef,
+  imageMainSize,
+  visible
+}) => {
+  const lensSize = 150;
+  const approximation = 3;
   return React.createElement("div", {
     ref: setRef,
-    style: _extends({}, ContainerLens, {
+    style: { ...ContainerLens,
       width: lensSize,
       height: lensSize,
-      transform: "translate(" + mouseX + "px, " + mouseY + "px)",
+      transform: `translate(${mouseX}px, ${mouseY}px)`,
       opacity: visible ? 1 : 0
-    })
+    }
   }, React.createElement("div", {
-    style: _extends({}, ImageLens, {
+    style: { ...ImageLens,
       width: imageMainSize.width * approximation,
       height: imageMainSize.height * approximation,
-      backgroundImage: "url(" + image + ")",
-      transform: "translate(" + -(mouseX * (approximation / 1.55)) + "px, " + -(mouseY * (approximation / 1.25)) + "px)"
-    })
+      backgroundImage: `url(${image})`,
+      transform: `translate(${-(mouseX * (approximation / 1.55))}px, ${-(mouseY * (approximation / 1.25))}px)`
+    }
   }));
 };
 
-var ImageContainer = {
+const ImageContainer = {
   transition: 'all .5s ease',
   position: 'relative',
   height: 500,
   marginBottom: 5
 };
-var ContainerHovered = {
+const ContainerHovered = {
   width: '100%',
   height: '100%',
   position: 'absolute',
@@ -166,7 +148,7 @@ var ContainerHovered = {
   transition: 'opacity .5s ease',
   zIndex: 89
 };
-var SelectedImage = {
+const SelectedImage = {
   width: '100%',
   height: 500,
   marginBottom: 8,
@@ -174,12 +156,13 @@ var SelectedImage = {
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover'
 };
+const ImageContainerFancy = {
+  marginBottom: 0
+};
 
-var transitionsAnimate = {
-  "default": function _default() {
-    return {};
-  },
-  fade: function fade(transitionImage) {
+const transitionsAnimate = {
+  default: () => ({}),
+  fade: transitionImage => {
     if (transitionImage) return {
       opacity: 0
     };
@@ -189,53 +172,47 @@ var transitionsAnimate = {
   }
 };
 
-var ImageMain = function ImageMain(_ref) {
-  var selectedImage = _ref.selectedImage,
-      transitionImage = _ref.transitionImage,
-      effect = _ref.effect;
-
-  var _useState = useState(false),
-      lensShows = _useState[0],
-      setLensShows = _useState[1];
-
-  var defaultStyles = ImageContainer;
-  if (effect) defaultStyles = _extends({}, defaultStyles, transitionsAnimate[effect](transitionImage));
-  var elementImageMain = createRef();
-  var elementLens = createRef();
-
-  var _useState2 = useState({
+const ImageMain = ({
+  selectedImage,
+  transitionImage,
+  effect,
+  theme
+}) => {
+  const [lensShows, setLensShows] = useState(false);
+  let defaultStyles = ImageContainer;
+  if (effect) defaultStyles = { ...defaultStyles,
+    ...transitionsAnimate[effect](transitionImage)
+  };
+  if (theme === 'fancy') defaultStyles = { ...defaultStyles,
+    ...ImageContainerFancy
+  };
+  const elementImageMain = createRef();
+  const elementLens = createRef();
+  const [imageMainSize, setImageMainSize] = useState({
     width: 0,
     height: 0
-  }),
-      imageMainSize = _useState2[0],
-      setImageMainSize = _useState2[1];
-
-  var _useState3 = useState(0),
-      mouseX = _useState3[0],
-      setMouseX = _useState3[1];
-
-  var _useState4 = useState(0),
-      mouseY = _useState4[0],
-      setMouseY = _useState4[1];
-
-  useEffect(function () {
+  });
+  const [mouseX, setMouseX] = useState(0);
+  const [mouseY, setMouseY] = useState(0);
+  useEffect(() => {
     setImageMainSize({
       width: elementImageMain.current.offsetWidth,
       height: elementImageMain.current.offsetHeight
     });
   }, []);
 
-  var handleMouseMove = function handleMouseMove(event) {
-    var clientX = event.clientX,
-        clientY = event.clientY;
-
-    var _elementImageMain$cur = elementImageMain.current.getBoundingClientRect(),
-        left = _elementImageMain$cur.left,
-        top = _elementImageMain$cur.top;
-
-    var xValue = clientX - left - elementLens.current.offsetWidth / 3;
-    var yValue = clientY - top - elementLens.current.offsetHeight / 3;
-    var lensAreaCondition = xValue > -(elementLens.current.offsetWidth / 10) && xValue < imageMainSize.width - elementLens.current.offsetWidth / 2 && yValue > -(elementLens.current.offsetHeight / 10) && yValue < imageMainSize.height - elementLens.current.offsetHeight / 2;
+  const handleMouseMove = event => {
+    const {
+      clientX,
+      clientY
+    } = event;
+    const {
+      left,
+      top
+    } = elementImageMain.current.getBoundingClientRect();
+    const xValue = clientX - left - elementLens.current.offsetWidth / 3;
+    const yValue = clientY - top - elementLens.current.offsetHeight / 3;
+    const lensAreaCondition = xValue > -(elementLens.current.offsetWidth / 10) && xValue < imageMainSize.width - elementLens.current.offsetWidth / 2 && yValue > -(elementLens.current.offsetHeight / 10) && yValue < imageMainSize.height - elementLens.current.offsetHeight / 2;
     if (lensAreaCondition) setLensShows(true);else setLensShows(false);
     setMouseX(xValue);
     setMouseY(yValue);
@@ -243,14 +220,14 @@ var ImageMain = function ImageMain(_ref) {
 
   return React.createElement("div", {
     ref: elementImageMain,
-    style: _extends({}, defaultStyles, {
+    style: { ...defaultStyles,
       zIndex: lensShows ? 999 : 99
-    }),
+    },
     onMouseMove: handleMouseMove
   }, React.createElement("div", {
-    style: _extends({}, ContainerHovered, {
+    style: { ...ContainerHovered,
       opacity: lensShows ? 1 : 0
-    })
+    }
   }), React.createElement(Lens, {
     visible: lensShows,
     setRef: elementLens,
@@ -259,91 +236,138 @@ var ImageMain = function ImageMain(_ref) {
     image: selectedImage,
     imageMainSize: imageMainSize
   }), React.createElement("div", {
-    style: _extends({}, SelectedImage, {
-      backgroundImage: "url(" + selectedImage + ")"
-    })
+    style: { ...SelectedImage,
+      backgroundImage: `url(${selectedImage})`
+    }
   }));
 };
 
-var CarouselContainer = {
+const borderSize = 3;
+const ImageSelected = {
+  border: `${borderSize}px solid`,
+  cursor: 'default'
+};
+const Thumb = {
+  marginRight: 10,
+  height: 150,
+  minWidth: 150,
+  border: `${borderSize}px solid #ffa70000`,
+  backgroundPosition: 'center center',
+  backgroundRepeat: 'no-repeat',
+  transition: 'background-size .3s ease',
+  cursor: 'pointer'
+};
+const ThumbFancy = {
+  border: '0',
+  marginRight: 0
+};
+
+const ThumbCarousel = ({
+  selectedImageIndex,
+  borderColorSelected,
+  image,
+  idx,
+  imagesAmount,
+  carouselItemsRef,
+  theme,
+  handleSelectedImageChange
+}) => {
+  const [thumbHovered, setThumbHovered] = useState(false);
+
+  const handleClickImage = idx => {
+    handleSelectedImageChange(idx);
+  };
+
+  const handleHover = () => {
+    setThumbHovered(!thumbHovered);
+  };
+
+  let imageStyle = { ...Thumb,
+    backgroundImage: `url(${image.url})`
+  };
+
+  if (selectedImageIndex === idx) {
+    imageStyle = { ...imageStyle,
+      ...ImageSelected,
+      borderColor: borderColorSelected,
+      backgroundSize: '100%'
+    };
+  } else {
+    imageStyle = { ...imageStyle,
+      backgroundSize: thumbHovered ? '105%' : '100%'
+    };
+  }
+
+  if (imagesAmount - 1 === idx) {
+    imageStyle = { ...imageStyle,
+      marginRight: 0
+    };
+  }
+
+  if (theme === 'fancy') {
+    imageStyle = { ...imageStyle,
+      ...ThumbFancy
+    };
+  }
+
+  return React.createElement("div", {
+    onClick: () => handleClickImage(idx),
+    style: { ...imageStyle
+    },
+    ref: el => {
+      carouselItemsRef.current[idx] = el;
+    },
+    onMouseEnter: handleHover,
+    onMouseLeave: handleHover
+  });
+};
+
+const CarouselContainer = {
   position: 'relative',
   zIndex: 100,
   boxSizing: 'border-box'
 };
-var Images = {
+const Images = {
   display: 'flex',
   maxWidth: '100%',
   overflowX: 'hidden'
 };
-var borderSize = 3;
-var ImageSelected = {
-  border: borderSize + "px solid"
-};
-var Image = {
-  marginRight: 10,
-  height: 150,
-  minWidth: 150,
-  border: borderSize + "px solid #ffa70000",
-  backgroundPosition: 'center center',
-  backgroundRepeat: 'no-repeat',
-  backgroundSize: 'cover'
-};
 
-var Carousel = function Carousel(_ref) {
-  var images = _ref.images,
-      selectedImageIndex = _ref.selectedImageIndex,
-      borderColorSelected = _ref.borderColorSelected,
-      carouselItemsRef = _ref.carouselItemsRef,
-      handleSelectedImageChange = _ref.handleSelectedImageChange,
-      setSelectedImageIndex = _ref.setSelectedImageIndex,
-      setSelectedImage = _ref.setSelectedImage;
-  useEffect(function () {
+const Carousel = ({
+  images,
+  carouselItemsRef,
+  handleSelectedImageChange,
+  setSelectedImageIndex,
+  setSelectedImage,
+  selectedImageIndex,
+  borderColorSelected,
+  theme
+}) => {
+  useEffect(() => {
     if (images && images[0]) {
       carouselItemsRef.current = carouselItemsRef.current.slice(0, images.length);
       setSelectedImageIndex(0);
       setSelectedImage(images[0]);
     }
   }, [images]);
-
-  var handleClickImage = function handleClickImage(idx) {
-    handleSelectedImageChange(idx);
-  };
-
   return React.createElement("div", {
     style: CarouselContainer
   }, React.createElement("div", {
     style: Images
-  }, images && images.map(function (image, idx) {
-    var imageStyle = _extends({}, Image, {
-      backgroundImage: "url(" + image.url + ")"
-    });
-
-    if (selectedImageIndex === idx) {
-      imageStyle = _extends({}, imageStyle, ImageSelected, {
-        borderColor: borderColorSelected
-      });
-    }
-
-    if (images.length - 1 === idx) {
-      imageStyle = _extends({}, imageStyle, {
-        marginRight: 0
-      });
-    }
-
-    return React.createElement("div", {
-      onClick: function onClick() {
-        return handleClickImage(idx);
-      },
-      style: imageStyle,
-      key: image.id && idx,
-      ref: function ref(el) {
-        carouselItemsRef.current[idx] = el;
-      }
-    });
-  })));
+  }, images && images.map((image, idx) => React.createElement(ThumbCarousel, {
+    theme: theme,
+    borderColorSelected: borderColorSelected,
+    selectedImageIndex: selectedImageIndex,
+    carouselItemsRef: carouselItemsRef,
+    handleSelectedImageChange: handleSelectedImageChange,
+    idx: idx,
+    image: image,
+    imagesAmount: images.length,
+    key: image.id && idx
+  }))));
 };
 
-var Container = {
+const Container = {
   margin: '-60px 0 20px',
   position: 'relative',
   overflow: 'hidden',
@@ -351,32 +375,24 @@ var Container = {
   height: 'fit-content'
 };
 
-var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
-  var images = _ref.images,
-      containerWidth = _ref.containerWidth,
-      borderColorSelected = _ref.borderColorSelected,
-      buttonPosition = _ref.buttonPosition,
-      buttonBgColor = _ref.buttonBgColor,
-      className = _ref.className,
-      effect = _ref.effect,
-      timingEffect = _ref.timingEffect,
-      hasButtons = _ref.hasButtons;
+const ReactFancyVitrine = ({
+  images,
+  containerWidth,
+  borderColorSelected,
+  buttonPosition,
+  buttonBgColor,
+  className,
+  effect,
+  timingEffect,
+  hasButtons,
+  theme
+}) => {
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [selectedImage, setSelectedImage] = useState();
+  const [transitionImage, setTransitionImage] = useState(false);
+  const carouselItemsRef = useRef([]);
 
-  var _useState = useState(0),
-      selectedImageIndex = _useState[0],
-      setSelectedImageIndex = _useState[1];
-
-  var _useState2 = useState(),
-      selectedImage = _useState2[0],
-      setSelectedImage = _useState2[1];
-
-  var _useState3 = useState(false),
-      transitionImage = _useState3[0],
-      setTransitionImage = _useState3[1];
-
-  var carouselItemsRef = useRef([]);
-
-  var executeTransation = function executeTransation(newIdx) {
+  const executeTransation = newIdx => {
     if (images && images.length > 0) {
       setSelectedImage(images[newIdx]);
       setSelectedImageIndex(newIdx);
@@ -393,10 +409,10 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
     }
   };
 
-  var handleSelectedImageChange = function handleSelectedImageChange(newIdx) {
+  const handleSelectedImageChange = newIdx => {
     if (effect !== 'default') {
       setTransitionImage(true);
-      setTimeout(function () {
+      setTimeout(() => {
         executeTransation(newIdx);
         setTransitionImage(false);
       }, timingEffect);
@@ -405,9 +421,9 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
     }
   };
 
-  var handleRightClick = function handleRightClick() {
+  const handleRightClick = () => {
     if (images && images.length > 0) {
-      var newIdx = selectedImageIndex + 1;
+      let newIdx = selectedImageIndex + 1;
 
       if (newIdx >= images.length) {
         newIdx = 0;
@@ -417,9 +433,9 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
     }
   };
 
-  var handleLeftClick = function handleLeftClick() {
+  const handleLeftClick = () => {
     if (images && images.length > 0) {
-      var newIdx = selectedImageIndex - 1;
+      let newIdx = selectedImageIndex - 1;
 
       if (newIdx < 0) {
         newIdx = images.length - 1;
@@ -430,15 +446,17 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
   };
 
   return React.createElement("div", {
-    style: _extends({}, Container, {
+    style: { ...Container,
       width: containerWidth
-    }),
+    },
     className: className
   }, React.createElement(ImageMain, {
+    theme: theme,
     effect: effect,
     transitionImage: transitionImage,
     selectedImage: selectedImage === null || selectedImage === void 0 ? void 0 : selectedImage.url
   }), React.createElement(Carousel, {
+    theme: theme,
     images: images,
     selectedImageIndex: selectedImageIndex,
     borderColorSelected: borderColorSelected,
@@ -465,7 +483,8 @@ ReactFancyVitrine.defaultProps = {
   buttonPosition: 'bottom',
   timingEffect: 300,
   effect: 'default',
-  hasButtons: true
+  hasButtons: true,
+  theme: 'default'
 };
 
 export default ReactFancyVitrine;
