@@ -4,11 +4,19 @@
 
 [![NPM](https://img.shields.io/npm/v/react-fancy-vitrine.svg)](https://www.npmjs.com/package/react-fancy-vitrine) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+![Gif preview](https://github.com/leoncarey/react-fancy-vitrine/blob/main/docs/preview.gif?raw=true)
+
 ## Credits
 > A lib based on [react-image-carousel](https://github.com/davehowson/react-image-carousel) and [react-image-magnifiers](https://github.com/adamrisberg/react-image-magnifiers).
 
+<hr>
+<br>
 
-![Gif preview](https://github.com/leoncarey/react-fancy-vitrine/blob/main/docs/preview.gif?raw=true)
+## Demo
+
+> [https://leoncarey.github.io/react-fancy-vitrine](https://leoncarey.github.io/react-fancy-vitrine)
+
+<br>
 
 ## Install
 
@@ -59,10 +67,12 @@ function App () {
 | timingEffect          | no        | 300              | -              |
 | className             | no        | -                | -              |
 | hasButtons            | no        | true             | true \| false  |
+| theme                 | no        | default          | default \| fancy |
 
 ```tsx
 {
   images?: ImageType[];             // Array with ImageType objects
+  theme?: string                    // Theme plugin default or fancy
   containerWidth?: string | number; // Container element width
   borderColorSelected?: string;     // Border color for selected thumb
   hasButtons?: boolean              // If show buttons
