@@ -1,6 +1,6 @@
 import React from 'react';
 import { ImageType } from './components/Carousel';
-declare type ReactFancyVitrineProps = {
+export declare type ReactFancyVitrineType = {
     images?: ImageType[];
     containerWidth?: string | number;
     borderColorSelected?: string;
@@ -14,6 +14,6 @@ declare type ReactFancyVitrineProps = {
     hasButtons?: boolean;
     className?: string;
 };
-declare const ReactFancyVitrine: React.FC<ReactFancyVitrineProps>;
+declare const ReactFancyVitrine: React.FC<ReactFancyVitrineType>;
 export default ReactFancyVitrine;
 export { ImageType };

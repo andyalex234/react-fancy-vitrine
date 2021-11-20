@@ -7,7 +7,7 @@ import {
   Container
 } from './styles'
 
-type ReactFancyVitrineProps = {
+export type ReactFancyVitrineType = {
   images?: ImageType[];
   containerWidth?: string | number;
   borderColorSelected?: string;
@@ -22,7 +22,7 @@ type ReactFancyVitrineProps = {
   className?: string;
 }
 
-const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
+const ReactFancyVitrine: React.FC<ReactFancyVitrineType> = ({
   images,
   containerWidth,
   borderColorSelected,
