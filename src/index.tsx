@@ -20,6 +20,7 @@ export type ReactFancyVitrineType = {
   timingEffect?: number;
   hasButtons?: boolean;
   className?: string;
+  theme?: string;
 }
 
 const ReactFancyVitrine: React.FC<ReactFancyVitrineType> = ({
@@ -31,7 +32,8 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineType> = ({
   className,
   effect,
   timingEffect,
-  hasButtons
+  hasButtons,
+  theme
 }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [selectedImage, setSelectedImage] = useState<ImageType>()
@@ -95,12 +97,14 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineType> = ({
   return (
     <div style={{ ...Container, width: containerWidth }} className={className}>
       <ImageMain
+        theme={theme}
         effect={effect}
         transitionImage={transitionImage}
         selectedImage={selectedImage?.url}
       />
 
       <Carousel
+        theme={theme}
         images={images}
         selectedImageIndex={selectedImageIndex}
         borderColorSelected={borderColorSelected}
@@ -135,7 +139,8 @@ ReactFancyVitrine.defaultProps = {
   buttonPosition: 'bottom',
   timingEffect: 300,
   effect: 'default',
-  hasButtons: true
+  hasButtons: true,
+  theme: 'default'
 }
 
 export default ReactFancyVitrine

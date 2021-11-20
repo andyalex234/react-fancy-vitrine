@@ -1,22 +1,18 @@
 import React, { useEffect } from 'react'
 
+import ThumbCarousel, { ImageType } from '../ThumbCarousel'
+
 import {
   CarouselContainer,
-  Images,
-  Image,
-  ImageSelected
+  Images
 } from './styles'
-
-export type ImageType = {
-  id?: number;
-  url: string;
-}
 
 export type CarouselType = {
   images?: ImageType[];
   selectedImageIndex: number;
   borderColorSelected: string | undefined;
   carouselItemsRef: any;
+  theme: string | undefined;
   handleSelectedImageChange: (newIdx: number) => void;
   setSelectedImageIndex: React.Dispatch<React.SetStateAction<number>>;
   setSelectedImage: React.Dispatch<React.SetStateAction<ImageType | undefined>>;
@@ -24,12 +20,13 @@ export type CarouselType = {
 
 const Carousel: React.FC<CarouselType> = ({
   images,
-  selectedImageIndex,
-  borderColorSelected,
   carouselItemsRef,
   handleSelectedImageChange,
   setSelectedImageIndex,
-  setSelectedImage
+  setSelectedImage,
+  selectedImageIndex,
+  borderColorSelected,
+  theme
 }) => {
   useEffect(() => {
     if (images && images[0]) {
@@ -43,47 +40,27 @@ const Carousel: React.FC<CarouselType> = ({
     }
   }, [images])
 
-  const handleClickImage = (idx: number) => {
-    handleSelectedImageChange(idx)
-  }
-
   return (
     <div style={CarouselContainer}>
       <div style={Images}>
         {images &&
-          images.map((image, idx) => {
-            let imageStyle: React.CSSProperties = {
-              ...Image,
-              backgroundImage: `url(${image.url})`
-            }
-
-            if (selectedImageIndex === idx) {
-              imageStyle = {
-                ...imageStyle,
-                ...ImageSelected,
-                borderColor: borderColorSelected
-              }
-            }
-
-            if ((images.length - 1) === idx) {
-              imageStyle = {
-                ...imageStyle,
-                marginRight: 0
-              }
-            }
-
-            return (
-              <div
-                onClick={() => handleClickImage(idx)}
-                style={imageStyle}
-                key={image.id && idx}
-                ref={(el) => { carouselItemsRef.current[idx] = el }}
-              />
-            )
-          })}
+          images.map((image, idx) => (
+            <ThumbCarousel
+              theme={theme}
+              borderColorSelected={borderColorSelected}
+              selectedImageIndex={selectedImageIndex}
+              carouselItemsRef={carouselItemsRef}
+              handleSelectedImageChange={handleSelectedImageChange}
+              idx={idx}
+              image={image}
+              imagesAmount={images.length}
+              key={image.id && idx}
+            />
+          ))}
       </div>
     </div>
   )
 }
 
 export default Carousel
+export { ImageType }

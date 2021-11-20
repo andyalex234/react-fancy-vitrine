@@ -4,7 +4,8 @@ import Lens from '../Lens'
 import {
   ImageContainer,
   SelectedImage,
-  ContainerHovered
+  ContainerHovered,
+  ImageContainerFancy
 } from './styles'
 
 const transitionsAnimate = {
@@ -25,9 +26,15 @@ type ImageMainProps = {
   selectedImage: string | undefined;
   transitionImage: boolean;
   effect?: string;
+  theme: string | undefined;
 }
 
-const ImageMain: React.FC<ImageMainProps> = ({ selectedImage, transitionImage, effect }) => {
+const ImageMain: React.FC<ImageMainProps> = ({
+  selectedImage,
+  transitionImage,
+  effect,
+  theme
+}) => {
   const [lensShows, setLensShows] = useState(false)
 
   let defaultStyles = ImageContainer
@@ -36,6 +43,12 @@ const ImageMain: React.FC<ImageMainProps> = ({ selectedImage, transitionImage, e
     defaultStyles = {
       ...defaultStyles,
       ...(transitionsAnimate[effect](transitionImage))
+    }
+
+  if (theme === 'fancy')
+    defaultStyles = {
+      ...defaultStyles,
+      ...ImageContainerFancy
     }
 
   const elementImageMain = createRef<any>()

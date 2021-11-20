@@ -20,19 +20,43 @@ export default function App() {
         React Fancy Vitrine
       </h1>
 
-      <ReactFancyVitrine
-        images={images}
-        containerWidth={600}
-        effect='fade'
-        timingEffect={300}
-        hasButtons={true}
-        buttonPosition="default"
-        borderColorSelected='#f4442e'
-        buttonBgColor={{
-          default: '#f1f1f1',
-          hover: '#ddd'
-        }}
-      />
+      <div className="box-presentation">
+        <ReactFancyVitrine
+          images={images}
+          containerWidth={600}
+          effect='fade'
+          theme='default'
+          timingEffect={300}
+          hasButtons={true}
+          buttonPosition="default"
+          borderColorSelected='#f4442e'
+          buttonBgColor={{
+            default: '#f1f1f1',
+            hover: '#ddd'
+          }}
+        />
+      </div>
+
+      <div className="box-presentation">
+        <h4 className='header-title-mutation'>
+          Fancy theme
+        </h4>
+
+        <ReactFancyVitrine
+          images={images}
+          containerWidth={600}
+          effect='fade'
+          theme='fancy'
+          timingEffect={300}
+          hasButtons={true}
+          buttonPosition="default"
+          borderColorSelected='#f4442e'
+          buttonBgColor={{
+            default: '#f1f1f1',
+            hover: '#ddd'
+          }}
+        />
+      </div>
     </div>
   );
 }

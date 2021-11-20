@@ -26,8 +26,13 @@ const SelectedImage = {
   backgroundSize: 'cover'
 }
 
+const ImageContainerFancy = {
+  marginBottom: 0
+}
+
 export {
   ImageContainer,
   SelectedImage,
-  ContainerHovered
+  ContainerHovered,
+  ImageContainerFancy
 }
