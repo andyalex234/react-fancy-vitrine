@@ -4,11 +4,9 @@ declare const ButtonHover: {
     backgroundColor: string;
 };
 declare const ButtonLeft: {
-    left: number;
     backgroundImage: string;
 };
 declare const ButtonRight: {
-    right: number;
     backgroundImage: string;
 };
 export { Button, ButtonHover, ButtonLeft, ButtonRight };

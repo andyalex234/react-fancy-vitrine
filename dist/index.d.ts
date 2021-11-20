@@ -10,7 +10,7 @@ export declare type ReactFancyVitrineType = {
         hover?: string;
     };
     effect?: string;
-    timingEffect?: number;
+    timingEffect?: string | number;
     hasButtons?: boolean;
     className?: string;
     theme?: string;

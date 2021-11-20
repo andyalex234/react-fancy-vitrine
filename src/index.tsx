@@ -17,7 +17,7 @@ export type ReactFancyVitrineType = {
     hover?: string;
   };
   effect?: string;
-  timingEffect?: number;
+  timingEffect?: string | number;
   hasButtons?: boolean;
   className?: string;
   theme?: string;
@@ -61,10 +61,11 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineType> = ({
     if (effect !== 'default') {
       setTransitionImage(true)
 
-      setTimeout(() => {
-        executeTransation(newIdx)
-        setTransitionImage(false)
-      }, timingEffect)
+      if (timingEffect)
+        setTimeout(() => {
+          executeTransation(newIdx)
+          setTransitionImage(false)
+        }, parseInt(timingEffect?.toString(), 10))
     } else {
       executeTransation(newIdx)
     }
@@ -95,7 +96,13 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineType> = ({
   }
 
   return (
-    <div style={{ ...Container, width: containerWidth }} className={className}>
+    <div
+      style={{
+        ...Container,
+        width: containerWidth
+      }}
+      className={className}
+    >
       <ImageMain
         theme={theme}
         effect={effect}
