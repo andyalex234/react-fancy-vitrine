@@ -363,7 +363,9 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
       className = _ref.className,
       effect = _ref.effect,
       timingEffect = _ref.timingEffect,
-      hasButtons = _ref.hasButtons;
+      autoPlay = _ref.autoPlay,
+      hasButtons = _ref.hasButtons,
+      speedSlider = _ref.speedSlider;
 
   var _useState = React.useState(0),
       selectedImageIndex = _useState[0],
@@ -378,6 +380,11 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
       setTransitionImage = _useState3[1];
 
   var carouselItemsRef = React.useRef([]);
+  var elementMain = React.useRef(null);
+
+  var _useState4 = React.useState(false),
+      executingTransition = _useState4[0],
+      setExecutingTransition = _useState4[1];
 
   var executeTransation = function executeTransation(newIdx) {
     if (images && images.length > 0) {
@@ -393,46 +400,71 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
           block: 'nearest'
         });
       }
+
+      elementMain.current.focus();
+      setExecutingTransition(false);
     }
   };
 
   var handleSelectedImageChange = function handleSelectedImageChange(newIdx) {
-    if (effect !== 'default') {
-      setTransitionImage(true);
-      setTimeout(function () {
+    try {
+      if (effect !== 'default') {
+        setTransitionImage(true);
+        setTimeout(function () {
+          executeTransation(newIdx);
+          setTransitionImage(false);
+        }, timingEffect);
+      } else {
         executeTransation(newIdx);
-        setTransitionImage(false);
-      }, timingEffect);
-    } else {
-      executeTransation(newIdx);
+      }
+
+      return Promise.resolve();
+    } catch (e) {
+      return Promise.reject(e);
     }
   };
 
   var handleRightClick = function handleRightClick() {
-    if (images && images.length > 0) {
-      var newIdx = selectedImageIndex + 1;
+    if (!executingTransition) {
+      setExecutingTransition(true);
 
-      if (newIdx >= images.length) {
-        newIdx = 0;
+      if (images && images.length > 0) {
+        var newIdx = selectedImageIndex + 1;
+
+        if (newIdx >= images.length) {
+          newIdx = 0;
+        }
+
+        handleSelectedImageChange(newIdx);
       }
-
-      handleSelectedImageChange(newIdx);
     }
   };
 
   var handleLeftClick = function handleLeftClick() {
-    if (images && images.length > 0) {
-      var newIdx = selectedImageIndex - 1;
+    if (!executingTransition) {
+      setExecutingTransition(true);
 
-      if (newIdx < 0) {
-        newIdx = images.length - 1;
+      if (images && images.length > 0) {
+        var newIdx = selectedImageIndex - 1;
+
+        if (newIdx < 0) {
+          newIdx = images.length - 1;
+        }
+
+        handleSelectedImageChange(newIdx);
       }
-
-      handleSelectedImageChange(newIdx);
     }
   };
 
+  var executeAutoPlay = function executeAutoPlay() {
+    if (autoPlay && speedSlider) {
+      setTimeout(handleRightClick, speedSlider);
+    }
+  };
+
+  executeAutoPlay();
   return React__default.createElement("div", {
+    ref: elementMain,
     style: _extends({}, Container, {
       width: containerWidth
     }),
@@ -468,7 +500,9 @@ ReactFancyVitrine.defaultProps = {
   buttonPosition: 'bottom',
   timingEffect: 300,
   effect: 'default',
-  hasButtons: true
+  hasButtons: true,
+  autoPlay: false,
+  speedSlider: 3000
 };
 
 module.exports = ReactFancyVitrine;

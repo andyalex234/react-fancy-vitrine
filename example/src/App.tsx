@@ -26,6 +26,8 @@ export default function App() {
         effect='fade'
         timingEffect={300}
         hasButtons={true}
+        autoPlay={true}
+        speedSlider={3000}
         buttonPosition="default"
         borderColorSelected='#f4442e'
         buttonBgColor={{

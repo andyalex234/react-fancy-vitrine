@@ -12,6 +12,8 @@ export declare type ReactFancyVitrineType = {
     effect?: string;
     timingEffect?: number;
     hasButtons?: boolean;
+    autoPlay?: boolean;
+    speedSlider?: number;
     className?: string;
 };
 declare const ReactFancyVitrine: React.FC<ReactFancyVitrineType>;

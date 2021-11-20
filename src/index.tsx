@@ -19,6 +19,8 @@ export type ReactFancyVitrineType = {
   effect?: string;
   timingEffect?: number;
   hasButtons?: boolean;
+  autoPlay?: boolean;
+  speedSlider?: number;
   className?: string;
 }
 
@@ -31,12 +33,16 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineType> = ({
   className,
   effect,
   timingEffect,
+  autoPlay,
+  speedSlider,
   hasButtons
 }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [selectedImage, setSelectedImage] = useState<ImageType>()
   const [transitionImage, setTransitionImage] = useState(false)
   const carouselItemsRef = useRef<HTMLDivElement[] | null[]>([])
+  const elementMain = useRef<any>(null)
+  const [executingTransition, setExecutingTransition] = useState(false)
 
   const executeTransation = (newIdx: number) => {
     if (images && images.length > 0) {
@@ -52,10 +58,13 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineType> = ({
           }
         )
       }
+
+      elementMain.current.focus()
+      setExecutingTransition(false)
     }
   }
 
-  const handleSelectedImageChange = (newIdx: number) => {
+  const handleSelectedImageChange = async (newIdx: number) => {
     if (effect !== 'default') {
       setTransitionImage(true)
 
@@ -69,31 +78,49 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineType> = ({
   }
 
   const handleRightClick = () => {
-    if (images && images.length > 0) {
-      let newIdx = selectedImageIndex + 1
+    if (!executingTransition) {
+      setExecutingTransition(true)
+      if (images && images.length > 0) {
+        let newIdx = selectedImageIndex + 1
 
-      if (newIdx >= images.length) {
-        newIdx = 0
+        if (newIdx >= images.length) {
+          newIdx = 0
+        }
+
+        handleSelectedImageChange(newIdx)
       }
-
-      handleSelectedImageChange(newIdx)
     }
   }
 
   const handleLeftClick = () => {
-    if (images && images.length > 0) {
-      let newIdx = selectedImageIndex - 1
+    if (!executingTransition) {
+      setExecutingTransition(true)
+      if (images && images.length > 0) {
+        let newIdx = selectedImageIndex - 1
 
-      if (newIdx < 0) {
-        newIdx = images.length - 1
+        if (newIdx < 0) {
+          newIdx = images.length - 1
+        }
+
+        handleSelectedImageChange(newIdx)
       }
-
-      handleSelectedImageChange(newIdx)
     }
   }
 
+  const executeAutoPlay = () => {
+    if (autoPlay && speedSlider) {
+      setTimeout(handleRightClick, speedSlider)
+    }
+  }
+
+  executeAutoPlay()
+
   return (
-    <div style={{ ...Container, width: containerWidth }} className={className}>
+    <div
+      ref={elementMain}
+      style={{ ...Container, width: containerWidth }}
+      className={className}
+    >
       <ImageMain
         effect={effect}
         transitionImage={transitionImage}
@@ -135,7 +162,9 @@ ReactFancyVitrine.defaultProps = {
   buttonPosition: 'bottom',
   timingEffect: 300,
   effect: 'default',
-  hasButtons: true
+  hasButtons: true,
+  autoPlay: false,
+  speedSlider: 3000
 }
 
 export default ReactFancyVitrine
