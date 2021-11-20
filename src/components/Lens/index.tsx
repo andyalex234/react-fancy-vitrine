@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import {
-  ContainerLens
+  ContainerLens,
+  ImageLens
 } from './styles'
 
 type LensType = {
@@ -9,24 +10,38 @@ type LensType = {
   mouseX: number;
   mouseY: number;
   setRef: any;
+  visible: boolean;
+  imageMainSize: {
+    width: number;
+    height: number;
+  };
 }
 
-const Lens: React.FC<LensType> = ({ image, mouseX, mouseY, setRef }) => {
-  const [elementRef, setElementRef] = useState(null)
-
-  useEffect(() => {
-    setElementRef(setRef)
-  })
+const Lens: React.FC<LensType> = ({ image, mouseX, mouseY, setRef, imageMainSize, visible }) => {
+  const lensSize = 150
+  const approximation = 3
 
   return (
     <div
-      ref={elementRef}
+      ref={setRef}
       style={{
         ...ContainerLens,
-        backgroundImage: `url(${image})`,
-        transform: `translate3d(${mouseX}px, ${mouseY}px, 0)`
+        width: lensSize,
+        height: lensSize,
+        transform: `translate(${mouseX}px, ${mouseY}px)`,
+        opacity: visible ? 1 : 0
       }}
-    />
+    >
+
+      <div style={{
+        ...ImageLens,
+        width: (imageMainSize.width * approximation),
+        height: (imageMainSize.height * approximation),
+        backgroundImage: `url(${image})`,
+        transform: `translate(${-(mouseX * (approximation / 1.55))}px, ${-(mouseY * (approximation / 1.25))}px)`
+      }}
+      />
+    </div>
   )
 }
 

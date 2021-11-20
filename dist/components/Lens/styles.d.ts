@@ -1,3 +1,4 @@
 /// <reference types="react" />
 declare const ContainerLens: import("react").CSSProperties;
-export { ContainerLens };
+declare const ImageLens: import("react").CSSProperties;
+export { ContainerLens, ImageLens };

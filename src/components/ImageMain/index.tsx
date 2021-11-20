@@ -1,5 +1,4 @@
-import React, { useState, useRef } from 'react'
-import { useRect } from '../../hooks/useRect'
+import React, { useState, useEffect, createRef } from 'react'
 import Lens from '../Lens'
 
 import {
@@ -39,35 +38,48 @@ const ImageMain: React.FC<ImageMainProps> = ({ selectedImage, transitionImage, e
       ...(transitionsAnimate[effect](transitionImage))
     }
 
-  const renderLens = () => {
-    setLensShows(!lensShows)
-  }
-
-  const elementLens = useRef<any>()
-  const elementImageMain = useRef<any>()
+  const elementImageMain = createRef<any>()
+  const elementLens = createRef<any>()
+  const [imageMainSize, setImageMainSize] = useState({
+    width: 0,
+    height: 0
+  })
   const [mouseX, setMouseX] = useState(0)
   const [mouseY, setMouseY] = useState(0)
 
+  useEffect(() => {
+    setImageMainSize({
+      width: elementImageMain.current.offsetWidth,
+      height: elementImageMain.current.offsetHeight
+    })
+  }, [])
+
   const handleMouseMove = (event: React.MouseEvent<HTMLElement>) => {
     const { clientX, clientY } = event
+    const { left, top } = elementImageMain.current.getBoundingClientRect()
 
-    // const offsetX = elementLens.current.offsetLeft
-    // const offsetY = elementLens.current.offsetTop
+    const xValue = (clientX - left) - (elementLens.current.offsetWidth / 3)
+    const yValue = (clientY - top) - (elementLens.current.offsetHeight / 3)
 
-    console.log(useRect(elementLens), elementImageMain.current.node.getBoundingClientRect())
+    const lensAreaCondition = xValue > -(elementLens.current.offsetWidth / 10) &&
+      xValue < (imageMainSize.width - (elementLens.current.offsetWidth / 2)) &&
+      yValue > -(elementLens.current.offsetHeight / 10) &&
+      yValue < (imageMainSize.height - (elementLens.current.offsetHeight / 2))
 
-    // console.log(offsetX, clientX)
+    if (lensAreaCondition) setLensShows(true)
+    else setLensShows(false)
 
-    setMouseX(clientX)
-    setMouseY(clientY)
+    setMouseX(xValue)
+    setMouseY(yValue)
   }
 
   return (
     <div
       ref={elementImageMain}
-      style={defaultStyles}
-      onMouseEnter={renderLens}
-      onMouseLeave={renderLens}
+      style={{
+        ...defaultStyles,
+        zIndex: lensShows ? 999 : 99
+      }}
       onMouseMove={handleMouseMove}
     >
       <div style={{
@@ -77,10 +89,12 @@ const ImageMain: React.FC<ImageMainProps> = ({ selectedImage, transitionImage, e
       />
 
       <Lens
+        visible={lensShows}
         setRef={elementLens}
         mouseX={mouseX}
         mouseY={mouseY}
         image={selectedImage}
+        imageMainSize={imageMainSize}
       />
 
       <div style={{

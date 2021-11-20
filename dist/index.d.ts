@@ -15,4 +15,4 @@ declare type ReactFancyVitrineProps = {
 };
 declare const ReactFancyVitrine: React.FC<ReactFancyVitrineProps>;
 export default ReactFancyVitrine;
-export { ImageType } from './components/Carousel';
+export { ImageType };

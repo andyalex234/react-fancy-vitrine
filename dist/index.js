@@ -107,41 +107,56 @@ ArrowButton.defaultProps = {
 };
 
 var ContainerLens = {
-  width: 100,
-  height: 100,
-  backgroundSize: '100%',
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  zIndex: 99,
+  transition: 'opacity .2s ease',
+  overflow: 'hidden',
+  boxSizing: 'border-box',
+  border: '1px solid #000'
+};
+var ImageLens = {
   backgroundRepeat: 'no-repeat',
   position: 'absolute',
   top: 0,
   left: 0,
-  zIndex: 99
+  zIndex: 1,
+  boxSizing: 'border-box'
 };
 
 var Lens = function Lens(_ref) {
   var image = _ref.image,
       mouseX = _ref.mouseX,
       mouseY = _ref.mouseY,
-      setRef = _ref.setRef;
-
-  var _useState = React.useState(null),
-      elementRef = _useState[0],
-      setElementRef = _useState[1];
-
-  React.useEffect(function () {
-    setElementRef(setRef);
-  });
+      setRef = _ref.setRef,
+      imageMainSize = _ref.imageMainSize,
+      visible = _ref.visible;
+  var lensSize = 150;
+  var approximation = 3;
   return React__default.createElement("div", {
-    ref: elementRef,
+    ref: setRef,
     style: _extends({}, ContainerLens, {
-      backgroundImage: "url(" + image + ")",
-      transform: "translate3d(" + mouseX + "px, " + mouseY + "px, 0)"
+      width: lensSize,
+      height: lensSize,
+      transform: "translate(" + mouseX + "px, " + mouseY + "px)",
+      opacity: visible ? 1 : 0
     })
-  });
+  }, React__default.createElement("div", {
+    style: _extends({}, ImageLens, {
+      width: imageMainSize.width * approximation,
+      height: imageMainSize.height * approximation,
+      backgroundImage: "url(" + image + ")",
+      transform: "translate(" + -(mouseX * (approximation / 1.55)) + "px, " + -(mouseY * (approximation / 1.25)) + "px)"
+    })
+  }));
 };
 
 var ImageContainer = {
   transition: 'all .5s ease',
-  position: 'relative'
+  position: 'relative',
+  height: 500,
+  marginBottom: 5
 };
 var ContainerHovered = {
   width: '100%',
@@ -187,45 +202,64 @@ var ImageMain = function ImageMain(_ref) {
 
   var defaultStyles = ImageContainer;
   if (effect) defaultStyles = _extends({}, defaultStyles, transitionsAnimate[effect](transitionImage));
+  var elementImageMain = React.createRef();
+  var elementLens = React.createRef();
 
-  var renderLens = function renderLens() {
-    setLensShows(!lensShows);
-  };
-
-  var elementLens = React.useRef();
-  var elementImageMain = React.useRef();
-
-  var _useState2 = React.useState(0),
-      mouseX = _useState2[0],
-      setMouseX = _useState2[1];
+  var _useState2 = React.useState({
+    width: 0,
+    height: 0
+  }),
+      imageMainSize = _useState2[0],
+      setImageMainSize = _useState2[1];
 
   var _useState3 = React.useState(0),
-      mouseY = _useState3[0],
-      setMouseY = _useState3[1];
+      mouseX = _useState3[0],
+      setMouseX = _useState3[1];
+
+  var _useState4 = React.useState(0),
+      mouseY = _useState4[0],
+      setMouseY = _useState4[1];
+
+  React.useEffect(function () {
+    setImageMainSize({
+      width: elementImageMain.current.offsetWidth,
+      height: elementImageMain.current.offsetHeight
+    });
+  }, []);
 
   var handleMouseMove = function handleMouseMove(event) {
     var clientX = event.clientX,
         clientY = event.clientY;
-    console.log(elementLens.current.offsetBottom, elementImageMain.current.node.getBoundingClientRect());
-    setMouseX(clientX);
-    setMouseY(clientY);
+
+    var _elementImageMain$cur = elementImageMain.current.getBoundingClientRect(),
+        left = _elementImageMain$cur.left,
+        top = _elementImageMain$cur.top;
+
+    var xValue = clientX - left - elementLens.current.offsetWidth / 3;
+    var yValue = clientY - top - elementLens.current.offsetHeight / 3;
+    var lensAreaCondition = xValue > -(elementLens.current.offsetWidth / 10) && xValue < imageMainSize.width - elementLens.current.offsetWidth / 2 && yValue > -(elementLens.current.offsetHeight / 10) && yValue < imageMainSize.height - elementLens.current.offsetHeight / 2;
+    if (lensAreaCondition) setLensShows(true);else setLensShows(false);
+    setMouseX(xValue);
+    setMouseY(yValue);
   };
 
   return React__default.createElement("div", {
     ref: elementImageMain,
-    style: defaultStyles,
-    onMouseEnter: renderLens,
-    onMouseLeave: renderLens,
+    style: _extends({}, defaultStyles, {
+      zIndex: lensShows ? 999 : 99
+    }),
     onMouseMove: handleMouseMove
   }, React__default.createElement("div", {
     style: _extends({}, ContainerHovered, {
       opacity: lensShows ? 1 : 0
     })
   }), React__default.createElement(Lens, {
+    visible: lensShows,
     setRef: elementLens,
     mouseX: mouseX,
     mouseY: mouseY,
-    image: selectedImage
+    image: selectedImage,
+    imageMainSize: imageMainSize
   }), React__default.createElement("div", {
     style: _extends({}, SelectedImage, {
       backgroundImage: "url(" + selectedImage + ")"
@@ -234,7 +268,8 @@ var ImageMain = function ImageMain(_ref) {
 };
 
 var CarouselContainer = {
-  position: 'relative'
+  position: 'relative',
+  zIndex: 100
 };
 var Images = {
   display: 'flex',
@@ -310,8 +345,10 @@ var Carousel = function Carousel(_ref) {
 };
 
 var Container = {
-  margin: 20,
-  position: 'relative'
+  margin: '-60px 0 20px',
+  position: 'relative',
+  overflow: 'hidden',
+  padding: '80px 80px 0'
 };
 
 var ReactFancyVitrine = function ReactFancyVitrine(_ref) {

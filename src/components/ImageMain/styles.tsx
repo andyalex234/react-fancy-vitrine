@@ -1,7 +1,9 @@
 
 const ImageContainer = {
   transition: 'all .5s ease',
-  position: 'relative'
+  position: 'relative',
+  height: 500,
+  marginBottom: 5
 } as React.CSSProperties
 
 const ContainerHovered = {

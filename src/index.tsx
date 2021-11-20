@@ -133,4 +133,4 @@ ReactFancyVitrine.defaultProps = {
 }
 
 export default ReactFancyVitrine
-export { ImageType } from './components/Carousel'
+export { ImageType }

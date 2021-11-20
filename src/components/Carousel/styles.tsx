@@ -1,6 +1,7 @@
 
 const CarouselContainer = {
-  position: 'relative'
+  position: 'relative',
+  zIndex: 100
 } as React.CSSProperties
 
 const Images = {

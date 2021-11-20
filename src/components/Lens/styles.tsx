@@ -1,15 +1,25 @@
 
 const ContainerLens = {
-  width: 100,
-  height: 100,
-  backgroundSize: '100%',
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  zIndex: 99,
+  transition: 'opacity .2s ease',
+  overflow: 'hidden',
+  boxSizing: 'border-box',
+  border: '1px solid #000'
+} as React.CSSProperties
+
+const ImageLens = {
   backgroundRepeat: 'no-repeat',
   position: 'absolute',
   top: 0,
   left: 0,
-  zIndex: 99
+  zIndex: 1,
+  boxSizing: 'border-box'
 } as React.CSSProperties
 
 export {
-  ContainerLens
+  ContainerLens,
+  ImageLens
 }
