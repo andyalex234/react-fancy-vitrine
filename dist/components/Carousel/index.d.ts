@@ -1,6 +1,6 @@
 import React from 'react';
 export declare type ImageType = {
-    id: number;
+    id?: number;
     url: string;
 };
 export declare type CarouselType = {

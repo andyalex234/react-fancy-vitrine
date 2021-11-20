@@ -303,7 +303,7 @@ const Carousel = ({
     return React.createElement("div", {
       onClick: () => handleClickImage(idx),
       style: imageStyle,
-      key: image.id,
+      key: image.id && idx,
       ref: el => carouselItemsRef.current[idx] = el
     });
   })));

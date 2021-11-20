@@ -336,7 +336,7 @@ var Carousel = function Carousel(_ref) {
         return handleClickImage(idx);
       },
       style: imageStyle,
-      key: image.id,
+      key: image.id && idx,
       ref: function ref(el) {
         return carouselItemsRef.current[idx] = el;
       }

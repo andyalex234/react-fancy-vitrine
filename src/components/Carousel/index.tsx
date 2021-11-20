@@ -8,7 +8,7 @@ import {
 } from './styles'
 
 export type ImageType = {
-  id: number;
+  id?: number;
   url: string;
 }
 
@@ -78,7 +78,7 @@ const Carousel: React.FC<CarouselType> = ({
               <div
                 onClick={() => handleClickImage(idx)}
                 style={imageStyle}
-                key={image.id}
+                key={image.id && idx}
                 ref={(el) => (carouselItemsRef.current[idx] = el)}
               />
             )
