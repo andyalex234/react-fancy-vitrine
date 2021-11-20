@@ -17,7 +17,7 @@ npm install --save react-fancy-vitrine
 ```
 or
 ```bash
-yarn add --save react-fancy-vitrine
+yarn add react-fancy-vitrine
 ```
 
 ## Usage
