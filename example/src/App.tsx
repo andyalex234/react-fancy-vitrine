@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react"
 import ReactFancyVitrine, { ImageType } from "react-fancy-vitrine";
+import { IoLogoGithub, IoLogoNpm } from 'react-icons/io5'
 import {
   Flex,
   Box,
   Select,
   Text,
   FormControl,
-  FormLabel
+  FormLabel,
+  HStack,
+  Button
 } from "@chakra-ui/react"
 
 import {
@@ -76,10 +79,37 @@ export default function App() {
         marginRight='auto'
         alignItems='center'
       >
+        <Flex w='100%' justifyContent='flex-end' marginTop='20px' marginBottom='-40px'>
+          <HStack>
+            <Button
+              variant="outline"
+              size="sm"
+              color="#222222"
+              leftIcon={<IoLogoGithub size={18} />}
+              onClick={() => {
+                window.open('https://github.com/leoncarey/react-fancy-vitrine', '_blank')
+              }}
+            >
+              view source
+            </Button>
+
+            <Button
+              variant="outline"
+              size="sm"
+              leftIcon={<IoLogoNpm color="#E53E3E" size={24} />}
+              onClick={() => {
+                window.open('https://www.npmjs.com/package/react-fancy-vitrine', '_blank')
+              }}
+            >
+              react-fancy-vitrine
+            </Button>
+          </HStack>
+        </Flex>
+
         <Box
           marginLeft='auto'
           marginRight='auto'
-          marginTop='20px'
+          marginTop='0'
           marginBottom='60px'
           textAlign='center'>
           <Text fontSize="5xl">

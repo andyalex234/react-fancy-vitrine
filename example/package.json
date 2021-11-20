@@ -10,6 +10,7 @@
     "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject"
   },
   "dependencies": {
+    "react-icons": "file:../node_modules/react-icons",
     "@chakra-ui/react": "file:../node_modules/@chakra-ui/react",
     "@emotion/react": "file:../node_modules/@emotion/react",
     "@emotion/styled": "file:../node_modules/@emotion/styled",
