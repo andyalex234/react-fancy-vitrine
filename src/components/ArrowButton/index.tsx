@@ -19,11 +19,15 @@ const definePositionButton = (buttonPosition: string | undefined, buttonDirectio
     return
 
   if (buttonDirection && (buttonPosition === 'default-outer' || buttonPosition === 'center-outer')) {
-    ButtonDirectionSide[buttonDirection] -= 25
+    ButtonDirectionSide[buttonDirection] = 15
+  } else if (buttonDirection) {
+    ButtonDirectionSide[buttonDirection] = 110
   }
 
   if (buttonDirection && (buttonPosition === 'center' || buttonPosition === 'center-outer')) {
     ButtonDirectionSide.top = '40%'
+  } else {
+    ButtonDirectionSide.top = '88%'
   }
 }
 

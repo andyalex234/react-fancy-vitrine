@@ -10,6 +10,10 @@
     "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject"
   },
   "dependencies": {
+    "@chakra-ui/react": "file:../node_modules/@chakra-ui/react",
+    "@emotion/react": "file:../node_modules/@emotion/react",
+    "@emotion/styled": "file:../node_modules/@emotion/styled",
+    "framer-motion": "file:../node_modules/framer-motion",
     "@testing-library/jest-dom": "file:../node_modules/@testing-library/jest-dom",
     "@testing-library/react": "file:../node_modules/@testing-library/react",
     "@testing-library/user-event": "file:../node_modules/@testing-library/user-event",

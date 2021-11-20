@@ -24,7 +24,6 @@ var arrowRight = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pjxzdmcg
 
 var Button = {
   position: 'absolute',
-  top: '85%',
   fontSize: 0,
   zIndex: 200,
   letterSpacing: -5000,
@@ -45,11 +44,9 @@ var ButtonHover = {
   backgroundColor: '#ddd'
 };
 var ButtonLeft = {
-  left: 10,
   backgroundImage: "url(" + arrowLeft + ")"
 };
 var ButtonRight = {
-  right: 10,
   backgroundImage: "url(" + arrowRight + ")"
 };
 
@@ -58,11 +55,15 @@ var definePositionButton = function definePositionButton(buttonPosition, buttonD
   if (buttonPosition !== undefined && !positions.includes(buttonPosition)) return;
 
   if (buttonDirection && (buttonPosition === 'default-outer' || buttonPosition === 'center-outer')) {
-    ButtonDirectionSide[buttonDirection] -= 25;
+    ButtonDirectionSide[buttonDirection] = 15;
+  } else if (buttonDirection) {
+    ButtonDirectionSide[buttonDirection] = 110;
   }
 
   if (buttonDirection && (buttonPosition === 'center' || buttonPosition === 'center-outer')) {
     ButtonDirectionSide.top = '40%';
+  } else {
+    ButtonDirectionSide.top = '88%';
   }
 };
 
@@ -450,10 +451,10 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
   var handleSelectedImageChange = function handleSelectedImageChange(newIdx) {
     if (effect !== 'default') {
       setTransitionImage(true);
-      setTimeout(function () {
+      if (timingEffect) setTimeout(function () {
         executeTransation(newIdx);
         setTransitionImage(false);
-      }, timingEffect);
+      }, parseInt(timingEffect === null || timingEffect === void 0 ? void 0 : timingEffect.toString(), 10));
     } else {
       executeTransation(newIdx);
     }

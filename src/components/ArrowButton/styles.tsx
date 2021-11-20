@@ -3,7 +3,6 @@ import arrowRight from '../../assets/arrow-right'
 
 const Button = {
   position: 'absolute',
-  top: '85%',
   fontSize: 0,
   zIndex: 200,
   letterSpacing: -5000,
@@ -26,12 +25,10 @@ const ButtonHover = {
 }
 
 const ButtonLeft = {
-  left: 10,
   backgroundImage: `url(${arrowLeft})`
 }
 
 const ButtonRight = {
-  right: 10,
   backgroundImage: `url(${arrowRight})`
 }
 
