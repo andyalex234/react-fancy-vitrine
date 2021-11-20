@@ -58,12 +58,14 @@ function App () {
 | effect                | no        | 'default'        | 'default' \| 'fade' |
 | timingEffect          | no        | 300              | -              |
 | className             | no        | -                | -              |
+| hasButtons            | no        | true             | true \| false  |
 
 ```tsx
 {
   images?: ImageType[];             // Array with ImageType objects
   containerWidth?: string | number; // Container element width
   borderColorSelected?: string;     // Border color for selected thumb
+  hasButtons?: boolean              // If show buttons
   buttonPosition?: string;          // Positions of buttons Prev and Next
   buttonBgColor?: {
     default?: string; // Buttons color default

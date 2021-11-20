@@ -51,8 +51,6 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
             block: 'nearest'
           }
         )
-
-        console.log(carouselItemsRef?.current[newIdx])
       }
     }
   }

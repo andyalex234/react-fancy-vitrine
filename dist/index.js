@@ -392,7 +392,6 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
           behavior: 'smooth',
           block: 'nearest'
         });
-        console.log(carouselItemsRef === null || carouselItemsRef === void 0 ? void 0 : carouselItemsRef.current[newIdx]);
       }
     }
   };
