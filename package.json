@@ -4,7 +4,7 @@
   "description": "A fancy vitrine to your products and galleries in react.",
   "author": "Leonardo Carey",
   "license": "MIT",
-  "homepage": "https://github.com/leoncarey/react-fancy-vitrine",
+  "homepage": "https://leoncarey.github.io/react-fancy-vitrine",
   "repository": "https://github.com/leoncarey/react-fancy-vitrine",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
