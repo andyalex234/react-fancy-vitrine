@@ -25,6 +25,7 @@ export default function App() {
         containerWidth={600}
         effect='fade'
         timingEffect={300}
+        hasButtons={true}
         buttonPosition="default"
         borderColorSelected='#f4442e'
         buttonBgColor={{

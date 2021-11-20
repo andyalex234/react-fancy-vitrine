@@ -16,9 +16,7 @@ export type CarouselType = {
   images?: ImageType[];
   selectedImageIndex: number;
   borderColorSelected: string | undefined;
-  carouselItemsRef: {
-    current: HTMLDivElement[] | null[];
-  };
+  carouselItemsRef: any;
   handleSelectedImageChange: (newIdx: number) => void;
   setSelectedImageIndex: React.Dispatch<React.SetStateAction<number>>;
   setSelectedImage: React.Dispatch<React.SetStateAction<ImageType | undefined>>;
@@ -79,7 +77,7 @@ const Carousel: React.FC<CarouselType> = ({
                 onClick={() => handleClickImage(idx)}
                 style={imageStyle}
                 key={image.id && idx}
-                ref={(el) => (carouselItemsRef.current[idx] = el)}
+                ref={(el) => { carouselItemsRef.current[idx] = el }}
               />
             )
           })}

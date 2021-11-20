@@ -5,6 +5,7 @@ const Button = {
   position: 'absolute',
   top: '85%',
   fontSize: 0,
+  zIndex: 200,
   letterSpacing: -5000,
   background: 'center no-repeat',
   backgroundColor: '#f1f1f1',

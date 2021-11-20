@@ -7,9 +7,7 @@ export declare type CarouselType = {
     images?: ImageType[];
     selectedImageIndex: number;
     borderColorSelected: string | undefined;
-    carouselItemsRef: {
-        current: HTMLDivElement[] | null[];
-    };
+    carouselItemsRef: any;
     handleSelectedImageChange: (newIdx: number) => void;
     setSelectedImageIndex: React.Dispatch<React.SetStateAction<number>>;
     setSelectedImage: React.Dispatch<React.SetStateAction<ImageType | undefined>>;

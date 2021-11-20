@@ -26,6 +26,7 @@ var Button = {
   position: 'absolute',
   top: '85%',
   fontSize: 0,
+  zIndex: 200,
   letterSpacing: -5000,
   background: 'center no-repeat',
   backgroundColor: '#f1f1f1',
@@ -266,7 +267,8 @@ var ImageMain = function ImageMain(_ref) {
 
 var CarouselContainer = {
   position: 'relative',
-  zIndex: 100
+  zIndex: 100,
+  boxSizing: 'border-box'
 };
 var Images = {
   display: 'flex',
@@ -335,7 +337,7 @@ var Carousel = function Carousel(_ref) {
       style: imageStyle,
       key: image.id && idx,
       ref: function ref(el) {
-        return carouselItemsRef.current[idx] = el;
+        carouselItemsRef.current[idx] = el;
       }
     });
   })));
@@ -345,7 +347,8 @@ var Container = {
   margin: '-60px 0 20px',
   position: 'relative',
   overflow: 'hidden',
-  padding: '80px 80px 0'
+  padding: '80px 80px 0',
+  height: 'fit-content'
 };
 
 var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
@@ -356,7 +359,8 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
       buttonBgColor = _ref.buttonBgColor,
       className = _ref.className,
       effect = _ref.effect,
-      timingEffect = _ref.timingEffect;
+      timingEffect = _ref.timingEffect,
+      hasButtons = _ref.hasButtons;
 
   var _useState = useState(0),
       selectedImageIndex = _useState[0],
@@ -382,8 +386,10 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
 
         carouselItemsRef === null || carouselItemsRef === void 0 ? void 0 : (_carouselItemsRef$cur = carouselItemsRef.current[newIdx]) === null || _carouselItemsRef$cur === void 0 ? void 0 : _carouselItemsRef$cur.scrollIntoView({
           inline: 'center',
-          behavior: 'smooth'
+          behavior: 'smooth',
+          block: 'nearest'
         });
+        console.log(carouselItemsRef === null || carouselItemsRef === void 0 ? void 0 : carouselItemsRef.current[newIdx]);
       }
     }
   };
@@ -441,12 +447,12 @@ var ReactFancyVitrine = function ReactFancyVitrine(_ref) {
     carouselItemsRef: carouselItemsRef,
     setSelectedImage: setSelectedImage,
     setSelectedImageIndex: setSelectedImageIndex
-  }), React.createElement(ArrowButton, {
+  }), hasButtons && React.createElement(ArrowButton, {
     buttonDirection: 'left',
     buttonBgColor: buttonBgColor,
     buttonPosition: buttonPosition,
     handleClick: handleLeftClick
-  }), React.createElement(ArrowButton, {
+  }), hasButtons && React.createElement(ArrowButton, {
     buttonDirection: 'right',
     buttonBgColor: buttonBgColor,
     buttonPosition: buttonPosition,
@@ -459,7 +465,8 @@ ReactFancyVitrine.defaultProps = {
   borderColorSelected: '#732400',
   buttonPosition: 'bottom',
   timingEffect: 300,
-  effect: 'default'
+  effect: 'default',
+  hasButtons: true
 };
 
 export default ReactFancyVitrine;

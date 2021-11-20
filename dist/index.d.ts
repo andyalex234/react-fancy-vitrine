@@ -11,6 +11,7 @@ declare type ReactFancyVitrineProps = {
     };
     effect?: string;
     timingEffect?: number;
+    hasButtons?: boolean;
     className?: string;
 };
 declare const ReactFancyVitrine: React.FC<ReactFancyVitrineProps>;

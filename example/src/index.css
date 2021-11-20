@@ -17,6 +17,7 @@ code {
   width: 1204px;
   margin: 0 auto;
   display: flex;
+  align-items: flex-start;
   justify-content: center;
   flex-flow: wrap;
 }

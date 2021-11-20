@@ -18,6 +18,7 @@ type ReactFancyVitrineProps = {
   };
   effect?: string;
   timingEffect?: number;
+  hasButtons?: boolean;
   className?: string;
 }
 
@@ -29,7 +30,8 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
   buttonBgColor,
   className,
   effect,
-  timingEffect
+  timingEffect,
+  hasButtons
 }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [selectedImage, setSelectedImage] = useState<ImageType>()
@@ -45,9 +47,12 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
         carouselItemsRef?.current[newIdx]?.scrollIntoView(
           {
             inline: 'center',
-            behavior: 'smooth'
+            behavior: 'smooth',
+            block: 'nearest'
           }
         )
+
+        console.log(carouselItemsRef?.current[newIdx])
       }
     }
   }
@@ -107,19 +112,21 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineProps> = ({
         setSelectedImageIndex={setSelectedImageIndex}
       />
 
-      <ArrowButton
-        buttonDirection='left'
-        buttonBgColor={buttonBgColor}
-        buttonPosition={buttonPosition}
-        handleClick={handleLeftClick}
-      />
+      {hasButtons &&
+        <ArrowButton
+          buttonDirection='left'
+          buttonBgColor={buttonBgColor}
+          buttonPosition={buttonPosition}
+          handleClick={handleLeftClick}
+        />}
 
-      <ArrowButton
-        buttonDirection='right'
-        buttonBgColor={buttonBgColor}
-        buttonPosition={buttonPosition}
-        handleClick={handleRightClick}
-      />
+      {hasButtons &&
+        <ArrowButton
+          buttonDirection='right'
+          buttonBgColor={buttonBgColor}
+          buttonPosition={buttonPosition}
+          handleClick={handleRightClick}
+        />}
     </div>
   )
 }
@@ -129,7 +136,8 @@ ReactFancyVitrine.defaultProps = {
   borderColorSelected: '#732400',
   buttonPosition: 'bottom',
   timingEffect: 300,
-  effect: 'default'
+  effect: 'default',
+  hasButtons: true
 }
 
 export default ReactFancyVitrine
