@@ -92,13 +92,12 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineType> = ({
       handleSelectedImageChange(newIdx);
     }
   };
-  const flexdirection = layout === 'horizontal' ? 'row' : 'column'
 
   return (
     <div
       style={{
         ...Container,
-        width: containerWidth,
+        width: containerWidth
       }}
       className={className}
     >
@@ -122,7 +121,7 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineType> = ({
 
       {hasButtons && (
         <ArrowButton
-          buttonDirection={layout ==="vertical" ? "top" : "left"}
+          buttonDirection={layout === 'vertical' ? 'top' : 'left'}
           buttonBgColor={buttonBgColor}
           buttonPosition={buttonPosition}
           handleClick={handleLeftClick}
@@ -131,7 +130,7 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineType> = ({
 
       {hasButtons && (
         <ArrowButton
-          buttonDirection={layout ==="vertical" ? "bottom" : "right"}
+          buttonDirection={layout === 'vertical' ? 'bottom' : 'right'}
           buttonBgColor={buttonBgColor}
           buttonPosition={buttonPosition}
           handleClick={handleRightClick}
