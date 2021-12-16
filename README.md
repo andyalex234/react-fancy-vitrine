@@ -38,6 +38,7 @@ function App () {
       <div>
         <ReactFancyVitrine
           images={images}
+          layout='vertical'
           containerWidth={600}
           effect='fade'
           timingEffect={300}
@@ -81,7 +82,7 @@ function App () {
     default?: string; // Buttons color default
     hover?: string;   // Buttons color when hover it
   };
-  effect?: string;          // Carousel effect 
+  effect?: string;          // Carousel effect
   timingEffect?: number;    // Timing transition between effects in milliseconds
   className?: string;       // Your custom className
 }

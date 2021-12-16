@@ -92,14 +92,13 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineType> = ({
       handleSelectedImageChange(newIdx);
     }
   };
+  const flexdirection = layout === 'horizontal' ? 'row' : 'column'
 
   return (
     <div
       style={{
         ...Container,
         width: containerWidth,
-        display: "flex",
-        flexDirection: "row-reverse",
       }}
       className={className}
     >
