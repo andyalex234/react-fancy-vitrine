@@ -16,6 +16,7 @@ export type CarouselType = {
   handleSelectedImageChange: (newIdx: number) => void;
   setSelectedImageIndex: React.Dispatch<React.SetStateAction<number>>;
   setSelectedImage: React.Dispatch<React.SetStateAction<ImageType | undefined>>;
+  layout: string;
 }
 
 const Carousel: React.FC<CarouselType> = ({
@@ -26,7 +27,8 @@ const Carousel: React.FC<CarouselType> = ({
   setSelectedImage,
   selectedImageIndex,
   borderColorSelected,
-  theme
+  theme,
+  layout
 }) => {
   useEffect(() => {
     if (images && images[0]) {
@@ -40,9 +42,16 @@ const Carousel: React.FC<CarouselType> = ({
     }
   }, [images])
 
+  const flexdirection = layout === 'horizontal' ? 'row' : 'column'
+
   return (
     <div style={CarouselContainer}>
-      <div style={Images}>
+      <div style={{
+        ...Images,
+        display: 'flex',
+        flexDirection: flexdirection
+      }}
+      >
         {images &&
           images.map((image, idx) => (
             <ThumbCarousel

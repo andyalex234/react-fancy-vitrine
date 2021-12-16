@@ -1,11 +1,9 @@
-import React, { useState, useRef } from 'react'
-import ArrowButton from './components/ArrowButton'
-import ImageMain from './components/ImageMain'
-import Carousel, { ImageType } from './components/Carousel'
+import React, { useState, useRef } from "react";
+import ArrowButton from "./components/ArrowButton";
+import ImageMain from "./components/ImageMain";
+import Carousel, { ImageType } from "./components/Carousel";
 
-import {
-  Container
-} from './styles'
+import { Container } from "./styles";
 
 export type ReactFancyVitrineType = {
   images?: ImageType[];
@@ -21,7 +19,8 @@ export type ReactFancyVitrineType = {
   hasButtons?: boolean;
   className?: string;
   theme?: string;
-}
+  layout?: string | "vertical";
+};
 
 const ReactFancyVitrine: React.FC<ReactFancyVitrineType> = ({
   images,
@@ -33,73 +32,74 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineType> = ({
   effect,
   timingEffect,
   hasButtons,
-  theme
+  theme,
+  layout,
 }) => {
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0)
-  const [selectedImage, setSelectedImage] = useState<ImageType>()
-  const [transitionImage, setTransitionImage] = useState(false)
-  const carouselItemsRef = useRef<HTMLDivElement[] | null[]>([])
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [selectedImage, setSelectedImage] = useState<ImageType>();
+  const [transitionImage, setTransitionImage] = useState(false);
+  const carouselItemsRef = useRef<HTMLDivElement[] | null[]>([]);
 
   const executeTransation = (newIdx: number) => {
     if (images && images.length > 0) {
-      setSelectedImage(images[newIdx])
-      setSelectedImageIndex(newIdx)
+      setSelectedImage(images[newIdx]);
+      setSelectedImageIndex(newIdx);
 
       if (carouselItemsRef?.current[newIdx]) {
-        carouselItemsRef?.current[newIdx]?.scrollIntoView(
-          {
-            inline: 'center',
-            behavior: 'smooth',
-            block: 'nearest'
-          }
-        )
+        carouselItemsRef?.current[newIdx]?.scrollIntoView({
+          inline: "center",
+          behavior: "smooth",
+          block: "nearest",
+        });
       }
     }
-  }
+  };
 
   const handleSelectedImageChange = (newIdx: number) => {
-    if (effect !== 'default') {
-      setTransitionImage(true)
+    if (effect !== "default") {
+      setTransitionImage(true);
 
       if (timingEffect)
         setTimeout(() => {
-          executeTransation(newIdx)
-          setTransitionImage(false)
-        }, parseInt(timingEffect?.toString(), 10))
+          executeTransation(newIdx);
+          setTransitionImage(false);
+        }, parseInt(timingEffect?.toString(), 10));
     } else {
-      executeTransation(newIdx)
+      executeTransation(newIdx);
     }
-  }
+  };
 
   const handleRightClick = () => {
     if (images && images.length > 0) {
-      let newIdx = selectedImageIndex + 1
+      let newIdx = selectedImageIndex + 1;
 
       if (newIdx >= images.length) {
-        newIdx = 0
+        newIdx = 0;
       }
 
-      handleSelectedImageChange(newIdx)
+      handleSelectedImageChange(newIdx);
     }
-  }
+  };
 
   const handleLeftClick = () => {
     if (images && images.length > 0) {
-      let newIdx = selectedImageIndex - 1
+      let newIdx = selectedImageIndex - 1;
 
       if (newIdx < 0) {
-        newIdx = images.length - 1
+        newIdx = images.length - 1;
       }
 
-      handleSelectedImageChange(newIdx)
+      handleSelectedImageChange(newIdx);
     }
-  }
+  };
 
   return (
     <div
       style={{
         ...Container,
-        width: containerWidth
+        width: containerWidth,
+        display: "flex",
+        flexDirection: "row-reverse",
       }}
       className={className}
     >
@@ -109,8 +109,8 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineType> = ({
         transitionImage={transitionImage}
         selectedImage={selectedImage?.url}
       />
-
       <Carousel
+        layout={layout??'vertical'}
         theme={theme}
         images={images}
         selectedImageIndex={selectedImageIndex}
@@ -121,34 +121,36 @@ const ReactFancyVitrine: React.FC<ReactFancyVitrineType> = ({
         setSelectedImageIndex={setSelectedImageIndex}
       />
 
-      {hasButtons &&
+      {hasButtons && (
         <ArrowButton
-          buttonDirection='left'
+          buttonDirection={layout ==="vertical" ? "top" : "left"}
           buttonBgColor={buttonBgColor}
           buttonPosition={buttonPosition}
           handleClick={handleLeftClick}
-        />}
+        />
+      )}
 
-      {hasButtons &&
+      {hasButtons && (
         <ArrowButton
-          buttonDirection='right'
+          buttonDirection={layout ==="vertical" ? "bottom" : "right"}
           buttonBgColor={buttonBgColor}
           buttonPosition={buttonPosition}
           handleClick={handleRightClick}
-        />}
+        />
+      )}
     </div>
-  )
-}
+  );
+};
 
 ReactFancyVitrine.defaultProps = {
   containerWidth: 600,
-  borderColorSelected: '#732400',
-  buttonPosition: 'bottom',
+  borderColorSelected: "#732400",
+  buttonPosition: "bottom",
   timingEffect: 300,
-  effect: 'default',
+  effect: "default",
   hasButtons: true,
-  theme: 'default'
-}
+  theme: "default",
+};
 
-export default ReactFancyVitrine
-export { ImageType }
+export default ReactFancyVitrine;
+export { ImageType };

@@ -1,5 +1,7 @@
 import arrowLeft from '../../assets/arrow-left'
 import arrowRight from '../../assets/arrow-right'
+import arrowTop from '../../assets/arrow-top'
+import arrowBottom from '../../assets/arrow-bottom'
 
 const Button = {
   position: 'absolute',
@@ -32,9 +34,19 @@ const ButtonRight = {
   backgroundImage: `url(${arrowRight})`
 }
 
+const ButtonTop = {
+  backgroundImage: `url(${arrowTop})`
+}
+
+const ButtonBottom = {
+  backgroundImage: `url(${arrowBottom})`
+}
+
 export {
   Button,
   ButtonHover,
   ButtonLeft,
-  ButtonRight
+  ButtonRight,
+  ButtonTop,
+  ButtonBottom
 }

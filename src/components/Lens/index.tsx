@@ -18,7 +18,7 @@ type LensType = {
 }
 
 const Lens: React.FC<LensType> = ({ image, mouseX, mouseY, setRef, imageMainSize, visible }) => {
-  const lensSize = 150
+  const lensSize = 250
   const approximation = 3
 
   return (
